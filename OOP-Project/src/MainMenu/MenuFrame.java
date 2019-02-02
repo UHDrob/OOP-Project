@@ -35,8 +35,8 @@ public class MenuFrame extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        btn_ContactInfo = new javax.swing.JButton();
+        btn_Staff = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,14 +60,19 @@ public class MenuFrame extends javax.swing.JFrame {
 
         jButton5.setText("New Account");
 
-        jButton6.setText("Contact Info");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btn_ContactInfo.setText("Contact Info");
+        btn_ContactInfo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btn_ContactInfoActionPerformed(evt);
             }
         });
 
-        jButton7.setText("Staff");
+        btn_Staff.setText("Staff");
+        btn_Staff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_StaffActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -87,14 +92,14 @@ public class MenuFrame extends javax.swing.JFrame {
                         .addGap(76, 76, 76)
                         .addComponent(jButton1)
                         .addGap(82, 82, 82)
-                        .addComponent(jButton7)
+                        .addComponent(btn_Staff)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
                         .addComponent(jButton2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(90, 90, 90)
-                .addComponent(jButton6)
+                .addComponent(btn_ContactInfo)
                 .addGap(95, 95, 95))
         );
         jPanel1Layout.setVerticalGroup(
@@ -111,8 +116,8 @@ public class MenuFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7))
+                    .addComponent(btn_ContactInfo)
+                    .addComponent(btn_Staff))
                 .addGap(74, 74, 74))
         );
 
@@ -143,10 +148,15 @@ public class MenuFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btn_ContactInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ContactInfoActionPerformed
         ContactInfo.Contact Info = new ContactInfo.Contact();
         Info.setVisible(true);
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btn_ContactInfoActionPerformed
+
+    private void btn_StaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_StaffActionPerformed
+        Staff.Employees Info = new Staff.Employees();
+        Info.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_StaffActionPerformed
 
     /**
      * @param args the command line arguments
@@ -184,13 +194,13 @@ public class MenuFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_ContactInfo;
+    private javax.swing.JButton btn_Staff;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

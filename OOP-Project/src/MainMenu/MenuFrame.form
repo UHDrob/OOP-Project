@@ -95,7 +95,7 @@
                           <EmptySpace min="-2" pref="76" max="-2" attributes="0"/>
                           <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="82" max="-2" attributes="0"/>
-                          <Component id="jButton7" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_Staff" min="-2" max="-2" attributes="0"/>
                           <EmptySpace pref="115" max="32767" attributes="0"/>
                           <Component id="jButton2" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -105,7 +105,7 @@
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
-                  <Component id="jButton6" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_ContactInfo" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -125,8 +125,8 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton6" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton7" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_ContactInfo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_Staff" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
               </Group>
@@ -167,18 +167,21 @@
             <Property name="text" type="java.lang.String" value="New Account"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton6">
+        <Component class="javax.swing.JButton" name="btn_ContactInfo">
           <Properties>
             <Property name="text" type="java.lang.String" value="Contact Info"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton6ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_ContactInfoActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton7">
+        <Component class="javax.swing.JButton" name="btn_Staff">
           <Properties>
             <Property name="text" type="java.lang.String" value="Staff"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_StaffActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
