@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
+import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 /**
@@ -35,6 +36,7 @@ public class Employees extends javax.swing.JFrame {
     }
     
     String filepath = "staff.txt";
+    private static Scanner x;
 
         // Check Input Fields
     public boolean checkInputs()
@@ -53,6 +55,53 @@ public class Employees extends javax.swing.JFrame {
         }
     }
     
+        public static void readRecord (String searchterm, String filepath)
+    {
+        boolean found = false;
+        String employeeID = ""; 
+        String firstName = ""; 
+        String lastName = "";
+        String title ="";
+        String phoneNumber = "";
+        
+        try
+        {
+            x = new Scanner(new File(filepath));
+            x.useDelimiter("[,\n]");
+            
+            while(x.hasNext() && !found )
+            {
+                employeeID = x.next();
+                firstName = x.next();
+                lastName = x.next();
+                title = x.next();                
+                phoneNumber = x.next();
+
+                
+                if(employeeID.equals(searchterm))
+                {
+                    found = true;
+                }
+            }
+            if (found)
+            {
+                JOptionPane.showMessageDialog(null, "ID: " + employeeID 
+                        + "\nFirst Name: " + firstName 
+                        + "\nLast Name: " + lastName 
+                        + "\nTitle: " + title 
+                        + "\nPhone Number: " + phoneNumber);
+            }
+            else 
+            {
+                JOptionPane.showMessageDialog(null,"Record NOT found");
+            }
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error");
+            
+        }
+    }
     
         public static void saveRecord(String IDnum, String FirstName, String LastName, String Title, String PhoneNumber, String FilePath)
     {
@@ -102,6 +151,8 @@ public class Employees extends javax.swing.JFrame {
         btn_Delete = new javax.swing.JButton();
         btn_Refresh = new javax.swing.JButton();
         btn_clear = new javax.swing.JButton();
+        txt_SearchEmployeeID = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 204, 255));
@@ -172,6 +223,13 @@ public class Employees extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Search by Employee ID");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -198,7 +256,12 @@ public class Employees extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_clear)
                         .addGap(78, 78, 78)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton2)
+                        .addGap(31, 31, 31)
+                        .addComponent(txt_SearchEmployeeID, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(41, 41, 41))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(133, 133, 133)
@@ -212,18 +275,17 @@ public class Employees extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_clear)
+                    .addComponent(txt_SearchEmployeeID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txt_employeeID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btn_clear)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txt_employeeID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -240,7 +302,11 @@ public class Employees extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(txt_PhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_Add)
                     .addComponent(btn_Delete)
@@ -317,6 +383,12 @@ public class Employees extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_clearActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String searchTerm = txt_SearchEmployeeID.getText();
+        
+        readRecord(searchTerm,filepath);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -358,6 +430,7 @@ public class Employees extends javax.swing.JFrame {
     private javax.swing.JButton btn_Refresh;
     private javax.swing.JButton btn_clear;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -370,6 +443,7 @@ public class Employees extends javax.swing.JFrame {
     private javax.swing.JTextField txt_FirstName;
     private javax.swing.JTextField txt_LastName;
     private javax.swing.JTextField txt_PhoneNumber;
+    private javax.swing.JTextField txt_SearchEmployeeID;
     private javax.swing.JTextField txt_Title;
     private javax.swing.JTextField txt_employeeID;
     // End of variables declaration//GEN-END:variables
