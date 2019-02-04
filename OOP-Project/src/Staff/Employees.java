@@ -6,14 +6,25 @@
 package Staff;
 
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Rob77
+ * Created: Feb 1, 2019
+ * Modified: Feb 4, 2019
+ * @author Roberto Gomez
+ * @version 1
  */
+
+
+
 public class Employees extends javax.swing.JFrame {
 
     /**
@@ -22,7 +33,27 @@ public class Employees extends javax.swing.JFrame {
     public Employees() {
         initComponents();
     }
+    
+    String filepath = "staff.txt";
 
+        // Check Input Fields
+    public boolean checkInputs()
+    {
+        if (        txt_employeeID.getText() == null
+                || txt_FirstName.getText()== null
+                || txt_LastName.getText() == null
+                || txt_Title.getText() == null
+                || txt_PhoneNumber.getText() == null)
+        {
+        return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
+    
         public static void saveRecord(String IDnum, String FirstName, String LastName, String Title, String PhoneNumber, String FilePath)
     {
         try
@@ -121,7 +152,9 @@ public class Employees extends javax.swing.JFrame {
             jTable1.getColumnModel().getColumn(4).setHeaderValue("Phone Number");
         }
 
+        btn_Add.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btn_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/add.png"))); // NOI18N
+        btn_Add.setText("ADD NEW");
         btn_Add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_AddActionPerformed(evt);
@@ -133,6 +166,11 @@ public class Employees extends javax.swing.JFrame {
         btn_Refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/update.png"))); // NOI18N
 
         btn_clear.setText("Clear");
+        btn_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_clearActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -249,15 +287,35 @@ public class Employees extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AddActionPerformed
-        String ID = "6234";
-        String firstname = "Alan";
-        String lastname = "Saavedra";
-        String position = "Manager";
-        String phonenumber = "713-222-9999";
-        String filepath = "staff.txt";
-        
-        saveRecord(ID, firstname, lastname, position, phonenumber, filepath);
+        if(checkInputs() )
+        {
+            String ID = txt_employeeID.getText();
+            String firstname = txt_FirstName.getText();
+            String lastname = txt_LastName.getText();
+            String position = txt_Title.getText();
+            String phonenumber = txt_PhoneNumber.getText();
+            
+            saveRecord(ID, firstname, lastname, position, phonenumber, filepath);                                 
+                   // Show_Employee_In_JTable();
+            JOptionPane.showMessageDialog(null,"New Employee has been Created");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "One or More Fields Are Empty");
+
+        }        
+                
+
     }//GEN-LAST:event_btn_AddActionPerformed
+
+    private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
+        txt_employeeID.setText(null);
+        txt_FirstName.setText(null);
+        txt_LastName.setText(null);
+        txt_Title.setText(null);
+        txt_PhoneNumber.setText(null);
+
+    }//GEN-LAST:event_btn_clearActionPerformed
 
     /**
      * @param args the command line arguments
