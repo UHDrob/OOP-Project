@@ -55,7 +55,7 @@ public class Employees extends javax.swing.JFrame {
         }
     }
     
-        public static void readRecord (String searchterm, String filepath)
+    public static void readRecord (String searchterm, String filepath)
     {
         boolean found = false;
         String employeeID = ""; 
