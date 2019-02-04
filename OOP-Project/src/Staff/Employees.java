@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 
@@ -55,7 +56,61 @@ public class Employees extends javax.swing.JFrame {
         }
     }
     
-    public static void readRecord (String searchterm, String filepath)
+    // This class define the Staff Fields
+    public class  Staff{
+        public int id;
+        public String fname;
+        public String lname;
+        public int age;
+        
+        public Staff(int Id, String FName, String LName, int Age)
+        {
+            this.id = Id;
+            this.fname = FName;
+            this.lname = LName;
+            this.age = Age;
+            
+        }
+    }
+    
+
+    
+        // To Read the records from staff.txt
+        public static void readRecord (String filepath)
+    {
+        boolean found = false;
+        String employeeID = ""; 
+        String firstName = ""; 
+        String lastName = "";
+        String title ="";
+        String phoneNumber = "";
+        
+        try
+        {
+            x = new Scanner(new File(filepath));
+            x.useDelimiter("[,\n]");
+            
+            while(x.hasNext() )
+            {
+                employeeID = x.next();
+                firstName = x.next();
+                lastName = x.next();
+                title = x.next();                
+                phoneNumber = x.next();
+               // Load to Arraylist
+               
+            }
+
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error");
+            
+        }
+    }
+    
+    
+    public static void searchRecord (String searchterm, String filepath)
     {
         boolean found = false;
         String employeeID = ""; 
@@ -386,7 +441,7 @@ public class Employees extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String searchTerm = txt_SearchEmployeeID.getText();
         
-        readRecord(searchTerm,filepath);
+        searchRecord(searchTerm,filepath);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
