@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * Created: Feb 1, 2019
@@ -27,18 +28,139 @@ import javax.swing.JOptionPane;
 
 
 
-public class Employees extends javax.swing.JFrame {
+public class Employeesv2 extends javax.swing.JFrame {
 
     /**
      * Creates new form Employees
      */
-    public Employees() {
+    public Employeesv2() {
         initComponents();
+        addRowToJTable();
     }
     
     String filepath = "staff.txt";
     private static Scanner x;
 
+// For the ArrayList Part A
+    public class  User{
+        public String idArray;
+        public String fnameArray;
+        public String lnameArray;
+        public String titleArray;
+        public String phoneNumberArray;
+        
+        public User(String Id, String FName, String LName, String Title, String PhoneNumber)
+        {
+            this.idArray = Id;
+            this.fnameArray = FName;
+            this.lnameArray = LName;
+            this.titleArray = Title;
+            this.phoneNumberArray = PhoneNumber;
+            
+        }
+    }   
+    
+// For the ArrayList Part B
+    public ArrayList ListUsers()
+    {
+        String employeeID = ""; 
+        String firstName = ""; 
+        String lastName = "";
+        String title ="";
+        String phoneNumber = "";
+        
+        ArrayList<User> list = new ArrayList<User>();
+        
+        try
+        {
+            x = new Scanner(new File(filepath));
+            x.useDelimiter("[,\n]");
+            
+            while(x.hasNext() )
+            {
+                employeeID = x.next();
+                firstName = x.next();
+                lastName = x.next();
+                title = x.next();                
+                phoneNumber = x.next();
+                User uX = new User(employeeID, firstName, lastName, title, phoneNumber);
+                list.add(uX);
+            }
+
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error");
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        //User u1 = new User("1234", "First", "Last", "Manager", "713-111-1111");
+        //User u2 = new User("0000", "FNB", "LNB", "title", "Number");
+
+        //list.add(u1);
+        //list.add(u2);
+
+        return list;
+    }
+
+// For the ArrayList Part C
+        public void addRowToJTable()
+    {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        ArrayList<User> list = ListUsers();
+        Object rowData[] = new Object[5];
+        for(int i=0; i < list.size(); i++)
+        {
+            rowData[0] = list.get(i).idArray;
+            rowData[1] = list.get(i).fnameArray;
+            rowData[2] = list.get(i).lnameArray;
+            rowData[3] = list.get(i).titleArray;
+            rowData[4] = list.get(i).phoneNumberArray;
+            model.addRow(rowData);
+        }
+    }
+ 
+        // To Read the records from staff.txt
+        public static void readRecord (String filepath)
+    {
+        boolean found = false;
+        String employeeID = ""; 
+        String firstName = ""; 
+        String lastName = "";
+        String title ="";
+        String phoneNumber = "";
+       
+        try
+        {
+            x = new Scanner(new File(filepath));
+            x.useDelimiter("[,\n]");
+            
+            while(x.hasNext() )
+            {
+                employeeID = x.next();
+                firstName = x.next();
+                lastName = x.next();
+                title = x.next();                
+                phoneNumber = x.next();
+
+
+            }
+
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error");
+            
+        }
+    }
+    
         // Check Input Fields
     public boolean checkInputs()
     {
@@ -55,7 +177,28 @@ public class Employees extends javax.swing.JFrame {
             return true;
         }
     }
-          
+    
+    // This class define the Staff Fields
+    public class  Staff{
+        public int id;
+        public String fname;
+        public String lname;
+        public int age;
+        
+        public Staff(int Id, String FName, String LName, int Age)
+        {
+            this.id = Id;
+            this.fname = FName;
+            this.lname = LName;
+            this.age = Age;
+            
+        }
+    }
+        
+
+    
+    
+    
     public static void searchRecord (String searchterm, String filepath)
     {
         boolean found = false;
@@ -186,23 +329,13 @@ public class Employees extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Employee ID", "First Name", "Last Name", "Title", "Phone Number"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setHeaderValue("Employee ID");
-            jTable1.getColumnModel().getColumn(1).setHeaderValue("First Name");
-            jTable1.getColumnModel().getColumn(2).setHeaderValue("Last Name");
-            jTable1.getColumnModel().getColumn(3).setHeaderValue("Title");
-            jTable1.getColumnModel().getColumn(4).setHeaderValue("Phone Number");
-        }
 
         btn_Add.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btn_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/add.png"))); // NOI18N
@@ -372,7 +505,7 @@ public class Employees extends javax.swing.JFrame {
 
         }        
                 
-
+        addRowToJTable();
     }//GEN-LAST:event_btn_AddActionPerformed
 
     private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
@@ -407,20 +540,21 @@ public class Employees extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employeesv2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employeesv2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employeesv2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employeesv2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Employees().setVisible(true);
+                new Employeesv2().setVisible(true);
             }
         });
     }
