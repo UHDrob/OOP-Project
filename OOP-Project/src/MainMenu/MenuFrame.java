@@ -27,42 +27,53 @@ public class MenuFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        lbl_Title = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btn_CheckOut = new javax.swing.JButton();
+        btn_CheckIn = new javax.swing.JButton();
+        btn_NewAccount = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        lbl_Management = new javax.swing.JLabel();
+        btn_Accounts = new javax.swing.JButton();
         btn_Staff = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_Inventory = new javax.swing.JButton();
         btn_ContactInfo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        lbl_UHD = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 204));
-        jLabel1.setText("LIBRARY MANAGEMENT SYSTEM");
+        lbl_Title.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
+        lbl_Title.setForeground(new java.awt.Color(0, 0, 204));
+        lbl_Title.setText("LIBRARY MANAGEMENT SYSTEM");
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 102));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Main Menu", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 2, 18), new java.awt.Color(0, 0, 204))); // NOI18N
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/CheckOut.PNG"))); // NOI18N
-        jButton3.setText("Check Out");
+        btn_CheckOut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/CheckOut.PNG"))); // NOI18N
+        btn_CheckOut.setText("Check OUT");
+        btn_CheckOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CheckOutActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("Return Book");
+        btn_CheckIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/CheckIN.PNG"))); // NOI18N
+        btn_CheckIn.setText("Check IN");
+        btn_CheckIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CheckInActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("New Account");
+        btn_NewAccount.setText("New Account");
 
         jPanel3.setBackground(new java.awt.Color(51, 204, 255));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jLabel2.setText("MANAGEMENT");
+        lbl_Management.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        lbl_Management.setText("MANAGEMENT");
 
-        jButton1.setText("Accounts");
+        btn_Accounts.setText("Accounts");
 
         btn_Staff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/Staff.PNG"))); // NOI18N
         btn_Staff.setText("Staff");
@@ -72,8 +83,13 @@ public class MenuFrame extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/Inventory.PNG"))); // NOI18N
-        jButton2.setText("Inventory");
+        btn_Inventory.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/Inventory.PNG"))); // NOI18N
+        btn_Inventory.setText("Inventory");
+        btn_Inventory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_InventoryActionPerformed(evt);
+            }
+        });
 
         btn_ContactInfo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/ContactInfo.PNG"))); // NOI18N
         btn_ContactInfo.setText("Contact Info");
@@ -91,28 +107,28 @@ public class MenuFrame extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addComponent(jButton1)
+                        .addComponent(btn_Accounts)
                         .addGap(75, 75, 75)
                         .addComponent(btn_Staff)
                         .addGap(144, 144, 144)
-                        .addComponent(jButton2)
+                        .addComponent(btn_Inventory)
                         .addGap(95, 95, 95)
                         .addComponent(btn_ContactInfo))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(640, 640, 640)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lbl_Management, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(302, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(jLabel2)
+                .addComponent(lbl_Management)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btn_Accounts)
                     .addComponent(btn_Staff)
-                    .addComponent(jButton2)
+                    .addComponent(btn_Inventory)
                     .addComponent(btn_ContactInfo))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -122,16 +138,12 @@ public class MenuFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4)
-                        .addGap(124, 124, 124)
-                        .addComponent(jButton5)))
+                .addGap(45, 45, 45)
+                .addComponent(btn_CheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(130, 130, 130)
+                .addComponent(btn_CheckIn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_NewAccount)
                 .addGap(158, 158, 158))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
@@ -144,22 +156,22 @@ public class MenuFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(120, 120, 120)
+                        .addComponent(btn_NewAccount))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton4)
-                            .addComponent(jButton5)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                            .addComponent(btn_CheckOut, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_CheckIn))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 0, 51));
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("UHD");
+        lbl_UHD.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        lbl_UHD.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_UHD.setText("UHD");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -167,14 +179,14 @@ public class MenuFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(91, 91, 91)
-                .addComponent(jLabel3)
+                .addComponent(lbl_UHD)
                 .addContainerGap(110, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jLabel3)
+                .addComponent(lbl_UHD)
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
@@ -187,8 +199,8 @@ public class MenuFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 738, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbl_Title, javax.swing.GroupLayout.PREFERRED_SIZE, 738, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(350, 350, 350)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -197,11 +209,11 @@ public class MenuFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_Title, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -214,8 +226,23 @@ public class MenuFrame extends javax.swing.JFrame {
 
     private void btn_StaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_StaffActionPerformed
         Staff.Employees Info = new Staff.Employees();
-        Info.setVisible(true);        // TODO add your handling code here:
+        Info.setVisible(true);        
     }//GEN-LAST:event_btn_StaffActionPerformed
+
+    private void btn_CheckInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CheckInActionPerformed
+        CheckIn.CheckIn Info = new CheckIn.CheckIn();
+        Info.setVisible(true);
+    }//GEN-LAST:event_btn_CheckInActionPerformed
+
+    private void btn_CheckOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CheckOutActionPerformed
+        CheckOut.CheckOut Info = new CheckOut.CheckOut();
+        Info.setVisible(true);
+    }//GEN-LAST:event_btn_CheckOutActionPerformed
+
+    private void btn_InventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_InventoryActionPerformed
+        Inventory.Inventory Info = new Inventory.Inventory();
+        Info.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_InventoryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -253,18 +280,18 @@ public class MenuFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_Accounts;
+    private javax.swing.JButton btn_CheckIn;
+    private javax.swing.JButton btn_CheckOut;
     private javax.swing.JButton btn_ContactInfo;
+    private javax.swing.JButton btn_Inventory;
+    private javax.swing.JButton btn_NewAccount;
     private javax.swing.JButton btn_Staff;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lbl_Management;
+    private javax.swing.JLabel lbl_Title;
+    private javax.swing.JLabel lbl_UHD;
     // End of variables declaration//GEN-END:variables
 }
