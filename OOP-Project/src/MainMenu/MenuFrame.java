@@ -225,7 +225,7 @@ public class MenuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_ContactInfoActionPerformed
 
     private void btn_StaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_StaffActionPerformed
-        Staff.Employees Info = new Staff.Employees();
+        Staff.Employeesv2 Info = new Staff.Employeesv2();
         Info.setVisible(true);        
     }//GEN-LAST:event_btn_StaffActionPerformed
 
