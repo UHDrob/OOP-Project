@@ -46,17 +46,17 @@ import javax.swing.table.DefaultTableModel;
 public class Employeesv2 extends javax.swing.JFrame {
 
     /**
-     * Creates new form Employees
+     * Feb 19, 2019 Roberto : Creates new form Employees
      */
     public Employeesv2() {
         initComponents();
-        addRowToJTable();
+        addRowToJTable();  // update the list
     }
     
-    String filepath = "staff.txt";
+    String filepath = "staff.txt";  // this file has all the data for this section
     private static Scanner x;
 
-// For the ArrayList Part A
+// Feb 19, 2019 Roberto : For the ArrayList Part A
     public class  User{
         public String idArray;
         public String fnameArray;
@@ -75,7 +75,7 @@ public class Employeesv2 extends javax.swing.JFrame {
         }
     }   
     
-// For the ArrayList Part B
+// Feb 19, 2019 Roberto : For the ArrayList Part B
     public ArrayList ListUsers()
     {
         String employeeID = ""; 
@@ -108,24 +108,11 @@ public class Employeesv2 extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error");
             
         }
-        
-        
-        
-        
-        
-        
-        
-        
-        //User u1 = new User("1234", "First", "Last", "Manager", "713-111-1111");
-        //User u2 = new User("0000", "FNB", "LNB", "title", "Number");
-
-        //list.add(u1);
-        //list.add(u2);
-
+               
         return list;
     }
 
-// For the ArrayList Part C
+// Feb 19, 2019 Roberto : For the ArrayList Part C
         public void addRowToJTable()
     {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -142,7 +129,7 @@ public class Employeesv2 extends javax.swing.JFrame {
         }
     }
  
-        // To Read the records from staff.txt
+        // Feb 19, 2019 Roberto : To Read the records from staff.txt
         public static void readRecord (String filepath)
     {
         boolean found = false;
@@ -176,7 +163,8 @@ public class Employeesv2 extends javax.swing.JFrame {
         }
     }
     
-        // Check Input Fields
+        // Feb 19, 2019 Roberto : Check Input Fields
+        // to verify they are not empty
     public boolean checkInputs()
     {
         if (        txt_employeeID.getText() == null
@@ -193,7 +181,7 @@ public class Employeesv2 extends javax.swing.JFrame {
         }
     }
     
-    // This class define the Staff Fields
+    // Feb 19, 2019 Roberto : This class define the Staff Fields
     public class  Staff{
         public int id;
         public String fname;
@@ -213,7 +201,7 @@ public class Employeesv2 extends javax.swing.JFrame {
 
     
     
-    
+   // Feb 19, 2019 Roberto: This section search for a Record in the file by employee ID 
     public static void searchRecord (String searchterm, String filepath)
     {
         boolean found = false;
@@ -262,6 +250,7 @@ public class Employeesv2 extends javax.swing.JFrame {
         }
     }
     
+    // Feb 19,2019 Roberto: This section will save the new record in the file
         public static void saveRecord(String IDnum, String FirstName, String LastName, String Title, String PhoneNumber, String FilePath)
     {
         try
@@ -311,7 +300,7 @@ public class Employeesv2 extends javax.swing.JFrame {
         btn_Refresh = new javax.swing.JButton();
         btn_clear = new javax.swing.JButton();
         txt_SearchEmployeeID = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btn_searchEmployeeID = new javax.swing.JButton();
         lbl_Username = new javax.swing.JLabel();
         txt_Username = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -376,10 +365,10 @@ public class Employeesv2 extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Search by Employee ID");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_searchEmployeeID.setText("Search by Employee ID");
+        btn_searchEmployeeID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_searchEmployeeIDActionPerformed(evt);
             }
         });
 
@@ -420,7 +409,7 @@ public class Employeesv2 extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(btn_searchEmployeeID)
                         .addGap(31, 31, 31)
                         .addComponent(txt_SearchEmployeeID, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(41, 41, 41))
@@ -440,7 +429,7 @@ public class Employeesv2 extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_clear)
                     .addComponent(txt_SearchEmployeeID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(btn_searchEmployeeID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -521,7 +510,7 @@ public class Employeesv2 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AddActionPerformed
-        if(checkInputs() )
+        if(checkInputs() )   // first, check all the fields
         {
             String ID = txt_employeeID.getText();
             String firstname = txt_FirstName.getText();
@@ -543,6 +532,8 @@ public class Employeesv2 extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_AddActionPerformed
 
     private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
+       // Feb 19, 2019 Roberto: This will clear all the fields in the form
+        
         txt_employeeID.setText(null);
         txt_FirstName.setText(null);
         txt_LastName.setText(null);
@@ -551,11 +542,12 @@ public class Employeesv2 extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_clearActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_searchEmployeeIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_searchEmployeeIDActionPerformed
+      // Feb 19, 2019 Roberto: This section will search by employee ID
         String searchTerm = txt_SearchEmployeeID.getText();
         
         searchRecord(searchTerm,filepath);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_searchEmployeeIDActionPerformed
 
     /**
      * @param args the command line arguments
@@ -598,8 +590,8 @@ public class Employeesv2 extends javax.swing.JFrame {
     private javax.swing.JButton btn_Delete;
     private javax.swing.JButton btn_Refresh;
     private javax.swing.JButton btn_clear;
+    private javax.swing.JButton btn_searchEmployeeID;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
