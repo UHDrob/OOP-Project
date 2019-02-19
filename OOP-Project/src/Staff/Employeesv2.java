@@ -1,10 +1,30 @@
 /*
  * EMPLOYEESv2.java     IN PROGRESS
-   This section will manage staff information
-   from a staff.txt file
+   This section will manage staff information from a file
+
+staff.txt file
+FIELDS:  Employee ID, First Name, Last Name, Title, Phone Number, Username, Password
+
+Notes: This is the current version as of Feb 19, 2019
+
+Progress Report:
+Clear button working
+Search by Employee ID button working
+Add New Button working
+Select from list and fill out the fields  IN PROGRESS
+
 
  */
+
+
+
 package Staff;
+/**
+ * Created: Feb 1, 2019
+ * Modified: Feb 4, 2019
+ * @author Roberto Gomez
+ * @version 2
+ */
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,12 +40,6 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- * Created: Feb 1, 2019
- * Modified: Feb 4, 2019
- * @author Roberto Gomez
- * @version 2
- */
 
 
 
