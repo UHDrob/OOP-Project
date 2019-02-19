@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Check in   STATUS IN PROGRESS
+ * This section will handle the returns of items
+ * back to inventory
+ * PENDING ITEMS: update inventory
+
  */
 package CheckIn;
 
@@ -22,6 +24,7 @@ import javax.swing.JOptionPane;
 
 /**
  * Created: Feb 1, 2019
+ * 
  * Modified: Feb 4, 2019
  * @author Roberto Gomez
  * @version 1

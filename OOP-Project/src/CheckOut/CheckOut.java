@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * CHECK OUT      STATUS IN PROGRESS
+ * This section will check out items
+ * Search user by account number
+ * add items to check out
  */
 package CheckOut;
 
