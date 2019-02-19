@@ -1,7 +1,9 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+   MENUFRAME.java    IN PROGRESS
+ * This is the main MENU
+   First screen on the program
+   you can select daily tasks
+   or management options
  */
 package MainMenu;
 

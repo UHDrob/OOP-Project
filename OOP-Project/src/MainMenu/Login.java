@@ -1,6 +1,8 @@
 /*
  * Login Window
- * Authenticate user from Staff.txt
+ * To Authenticate user from Staff.txt
+    It will request user input and the search on the text file
+    if found, then grant access to the program
  */
 
 /**
