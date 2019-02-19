@@ -510,6 +510,7 @@ public class Employeesv2 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AddActionPerformed
+        // Feb 19, 2019 Roberto: This seciton will add the new record to the text file
         if(checkInputs() )   // first, check all the fields
         {
             String ID = txt_employeeID.getText();
