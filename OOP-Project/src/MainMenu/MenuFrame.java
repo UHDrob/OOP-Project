@@ -1,7 +1,7 @@
 /*
    MENUFRAME.java    IN PROGRESS
  * This is the main MENU
-   First screen on the program
+   First screen on the program once the user login successfully
    you can select daily tasks
    or management options
  */
