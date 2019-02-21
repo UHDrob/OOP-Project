@@ -8,8 +8,11 @@
 package MainMenu;
 
 /**
- * Craeated Feb 1, 2019
- * @author Rob77
+ * Created Feb 1, 2019
+ * ModifiedL Feb 21, 2019
+ * 
+ * @author Roberto Gomez
+ * @version 1.1
  */
 public class MenuFrame extends javax.swing.JFrame {
 
