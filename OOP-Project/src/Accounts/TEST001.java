@@ -1,5 +1,5 @@
 /*
- * Update
+ * Update class
  */
 package Accounts;
 
