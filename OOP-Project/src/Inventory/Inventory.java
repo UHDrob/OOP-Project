@@ -18,6 +18,8 @@ import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * Created: Feb 1, 2019
@@ -26,6 +28,9 @@ import javax.swing.JOptionPane;
  * @version 1
  * Updated: Feb 21, 2019
  * Nina Lalonde
+ * Update: Feb 24, 2019
+ * Things to work on: Display information from file to table
+ *                    Search for multiple fields not just the ID
  */
 
 
@@ -39,13 +44,17 @@ public class Inventory extends javax.swing.JFrame {
     {
         initComponents();
     }
-    // Need to create a file to use for storage of data
-    String filepath = "inventory.txt";
+    
+    // Links to Inventory.txt file
+    String filepath = "Inventory.txt";
     private static Scanner x;
-
-    // Check Input Fields
+    
+  
+    
     public boolean checkInputs()
-    {
+    {/* Check Input Fields, if any are null, end error message
+        works fine*/
+   
         if (     // check to make sure all fields have a value  
                 txt_New_InventoryNo.getText() == null
                 || txt_New_Title.getText()== null
@@ -53,6 +62,7 @@ public class Inventory extends javax.swing.JFrame {
                 || txt_New_ISBN.getText() == null
                 || txt_New_Genre.getText() == null
                 || txt_New_Price.getText() == null
+                || txt_New_Media_Type.getText() == null
             )
         { // if a field is not complete return false
         return false;
@@ -64,7 +74,8 @@ public class Inventory extends javax.swing.JFrame {
     }
     
     public static void readRecord (String searchterm, String filepath)
-    {   // read the data in fields
+    {   /* Search Inventory Records, need to fix want to search for more than 
+        justh the invetory ID, would like to search multiple fields*/ 
         boolean found = false;
         String id = ""; 
         String title = ""; 
@@ -72,6 +83,7 @@ public class Inventory extends javax.swing.JFrame {
         String isbn ="";
         String genre = "";
         String price = "";
+        String mediaType ="";
         
         try
         {
@@ -86,12 +98,16 @@ public class Inventory extends javax.swing.JFrame {
                 isbn = x.next();                
                 genre = x.next();
                 price = x.next();
+                mediaType = x.next();
                 
-                if(id.equals(searchterm))
+                if(id.equals(searchterm)||
+                        title.equals(searchterm)||
+                        author.equals(searchterm))
                 {
                     found = true;
                 }
             }
+            
             if (found)
             {
                 JOptionPane.showMessageDialog(null, "ID: " + id 
@@ -99,7 +115,8 @@ public class Inventory extends javax.swing.JFrame {
                         + "\nAuthor: " + author
                         + "\nISBN: " + isbn
                         + "\nGenre: " + genre
-                        + "\nPrice: " + price);
+                        + "\nPrice: " + price
+                        + "\nMedia Type: " + mediaType);
             }
             else 
             {
@@ -112,16 +129,16 @@ public class Inventory extends javax.swing.JFrame {
             
         }
     }
-    
-        public static void saveRecord(String ID, String title, String author, String isbn, String genre, String price, String FilePath)
-    {
+   
+        public static void saveRecord(String ID, String title, String author, String isbn, String genre, String price, String mediaType, String FilePath)
+    {    // Save new records to text file, works fine
         try
         {
             FileWriter fw = new FileWriter(FilePath, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             
-            pw.println(ID+"," + title + "," + author + "," + isbn + "," + genre + "," + price);
+            pw.println(ID+"," + title + "," + author + "," + isbn + "," + genre + "," + price + "," + mediaType);
             pw.flush();
             pw.close();
             
@@ -132,6 +149,8 @@ public class Inventory extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Record NOT Saved");
         }
     }
+  
+ 
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -148,7 +167,12 @@ public class Inventory extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         btn_SearchBarcode = new javax.swing.JButton();
         btn_clear = new javax.swing.JButton();
-        txt_SearchInventory = new javax.swing.JTextField();
+        txt_SearchID = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        txt_SearchTitle = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txt_SearchAuthor = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txt_New_InventoryNo = new javax.swing.JTextField();
@@ -156,15 +180,17 @@ public class Inventory extends javax.swing.JFrame {
         txt_New_Title = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txt_New_Author = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txt_New_ISBN = new javax.swing.JTextField();
         txt_New_Genre = new javax.swing.JTextField();
         txt_New_Price = new javax.swing.JTextField();
         btn_Add_New_Inventory = new javax.swing.JButton();
-        panel_List = new javax.swing.JScrollPane();
-        table_CheckOut = new javax.swing.JTable();
+        jLabel11 = new javax.swing.JLabel();
+        txt_New_Media_Type = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Invetory_Table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 204, 255));
@@ -185,7 +211,7 @@ public class Inventory extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(51, 204, 0));
 
-        btn_SearchBarcode.setText("Search By ID");
+        btn_SearchBarcode.setText("Search ");
         btn_SearchBarcode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_SearchBarcodeActionPerformed(evt);
@@ -199,9 +225,21 @@ public class Inventory extends javax.swing.JFrame {
             }
         });
 
-        txt_SearchInventory.addActionListener(new java.awt.event.ActionListener() {
+        txt_SearchID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_SearchInventoryActionPerformed(evt);
+                txt_SearchIDActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("ID");
+
+        jLabel9.setText("Title");
+
+        jLabel10.setText("Author");
+
+        txt_SearchAuthor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_SearchAuthorActionPerformed(evt);
             }
         });
 
@@ -209,23 +247,46 @@ public class Inventory extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_SearchBarcode, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-                    .addComponent(txt_SearchInventory)
-                    .addComponent(btn_clear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn_clear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_SearchBarcode, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addGap(12, 12, 12)
+                        .addComponent(txt_SearchAuthor))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel7))
+                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_SearchID)
+                            .addComponent(txt_SearchTitle))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btn_SearchBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_SearchInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addComponent(btn_SearchBarcode)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_SearchID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(txt_SearchTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(txt_SearchAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_clear)
                 .addContainerGap())
         );
 
@@ -249,9 +310,9 @@ public class Inventory extends javax.swing.JFrame {
 
         jLabel4.setText("Author");
 
-        jLabel5.setText("ISBN");
-
         jLabel6.setText("Genre");
+
+        jLabel5.setText("ISBN");
 
         jLabel8.setText("Price");
 
@@ -270,28 +331,40 @@ public class Inventory extends javax.swing.JFrame {
             }
         });
 
+        jLabel11.setText("Media Type");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(36, 36, 36)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txt_New_Title, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_New_InventoryNo, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_New_Author, javax.swing.GroupLayout.PREFERRED_SIZE, 226, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel5))
-                .addGap(31, 31, 31)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(34, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2))
+                                .addGap(34, 34, 34))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txt_New_InventoryNo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_New_Title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                            .addComponent(txt_New_Author, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel5))
+                        .addGap(31, 31, 31))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txt_New_Media_Type)
                     .addComponent(txt_New_Genre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                     .addComponent(txt_New_ISBN, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txt_New_Price))
@@ -304,29 +377,38 @@ public class Inventory extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txt_New_ISBN, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)
+                        .addComponent(txt_New_InventoryNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_Add_New_Inventory, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_New_ISBN, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_New_InventoryNo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txt_New_Title, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_New_Genre, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_Add_New_Inventory, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_New_Title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(txt_New_Author, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_New_Genre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txt_New_Price, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_New_Author, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_New_Price, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 10, Short.MAX_VALUE))
+                    .addComponent(txt_New_Media_Type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        table_CheckOut.setModel(new javax.swing.table.DefaultTableModel(
+        Invetory_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -334,48 +416,43 @@ public class Inventory extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Title", "Author", "ISBN", "Genre", "Status", "Price"
+                "ID", "Title", "Author", "ISBN", "Genre", "Price", "Media Type"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Float.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        panel_List.setViewportView(table_CheckOut);
-        if (table_CheckOut.getColumnModel().getColumnCount() > 0) {
-            table_CheckOut.getColumnModel().getColumn(0).setMaxWidth(50);
-            table_CheckOut.getColumnModel().getColumn(1).setMaxWidth(50);
-            table_CheckOut.getColumnModel().getColumn(2).setMaxWidth(500);
-        }
+        jScrollPane1.setViewportView(Invetory_Table);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(63, 63, 63)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(panel_List, javax.swing.GroupLayout.DEFAULT_SIZE, 1335, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(151, 151, 151))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panel_List, javax.swing.GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
-                .addGap(36, 36, 36))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(50, 50, 50)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(214, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -417,35 +494,35 @@ public class Inventory extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
-        txt_New_InventoryNo.setText(null);
-        txt_New_Title.setText(null);
-        txt_New_Author.setText(null);
-        txt_New_ISBN.setText(null);
-        txt_New_Genre.setText(null);
-        txt_New_Price.setText(null);
+        //Clears data input into the search boxes
+        txt_SearchID.setText(null);
+        txt_SearchTitle.setText(null);
+        txt_SearchAuthor.setText(null);
+ 
     }//GEN-LAST:event_btn_clearActionPerformed
 
     private void btn_SearchBarcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SearchBarcodeActionPerformed
-        String searchTerm = txt_SearchInventory.getText();
-        
+        String searchTerm = txt_SearchID.getText();
+
         readRecord(searchTerm,filepath);
     }//GEN-LAST:event_btn_SearchBarcodeActionPerformed
 
-    private void txt_SearchInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_SearchInventoryActionPerformed
+    private void txt_SearchIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_SearchIDActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_SearchInventoryActionPerformed
+    }//GEN-LAST:event_txt_SearchIDActionPerformed
 
     private void btn_Add_New_InventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Add_New_InventoryActionPerformed
         if(checkInputs() )
-        {// Id and price are int and float, need to change this to aquire the proper data types
+        {// After clicking new, add items to text file
             String id = txt_New_InventoryNo.getText();
             String title = txt_New_Title.getText();
             String author = txt_New_Author.getText();
             String isbn = txt_New_ISBN.getText();
             String genre = txt_New_Genre.getText();
             String price = txt_New_Price.getText();
-
-            saveRecord(id, title, author, isbn, genre, price, filepath);
+            String mediaType = txt_New_Media_Type.getText();
+            
+            saveRecord(id, title, author, isbn, genre, price, mediaType, filepath);
 
             JOptionPane.showMessageDialog(null,"New Inventory Item has been created");
         }
@@ -468,6 +545,10 @@ public class Inventory extends javax.swing.JFrame {
     private void txt_New_InventoryNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_New_InventoryNoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_New_InventoryNoActionPerformed
+
+    private void txt_SearchAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_SearchAuthorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_SearchAuthorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -508,28 +589,35 @@ public class Inventory extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Invetory_Table;
     private javax.swing.JButton btn_Add_New_Inventory;
     private javax.swing.JButton btn_SearchBarcode;
     private javax.swing.JButton btn_clear;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane panel_List;
-    private javax.swing.JTable table_CheckOut;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txt_New_Author;
     private javax.swing.JTextField txt_New_Genre;
     private javax.swing.JTextField txt_New_ISBN;
     private javax.swing.JTextField txt_New_InventoryNo;
+    private javax.swing.JTextField txt_New_Media_Type;
     private javax.swing.JTextField txt_New_Price;
     private javax.swing.JTextField txt_New_Title;
-    private javax.swing.JTextField txt_SearchInventory;
+    private javax.swing.JTextField txt_SearchAuthor;
+    private javax.swing.JTextField txt_SearchID;
+    private javax.swing.JTextField txt_SearchTitle;
     // End of variables declaration//GEN-END:variables
 }
