@@ -42,7 +42,7 @@ public class Employees extends javax.swing.JFrame {
         // Check Input Fields
     public boolean checkInputs()
     {
-        if (        txt_employeeID.getText() == null
+        if (       txt_employeeID.getText() == null
                 || txt_FirstName.getText()== null
                 || txt_LastName.getText() == null
                 || txt_Title.getText() == null
@@ -84,6 +84,7 @@ public class Employees extends javax.swing.JFrame {
                     found = true;
                 }
             }
+            
             if (found)
             {
                 JOptionPane.showMessageDialog(null, "ID: " + employeeID 
