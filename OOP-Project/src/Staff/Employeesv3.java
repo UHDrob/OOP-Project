@@ -1,5 +1,5 @@
 /*
- * EMPLOYEESv2.java     IN PROGRESS
+ * EMPLOYEESv3.java     IN PROGRESS
    This section will manage staff information from a file
 
 staff.txt file
@@ -21,9 +21,9 @@ Select from list and fill out the fields  IN PROGRESS
 package Staff;
 /**
  * Created: Feb 1, 2019
- * Modified: Feb 23, 2019
+ * Modified: Feb 24, 2019
  * @author Roberto Gomez
- * @version 2
+ * @version 3
  */
 
 import java.io.BufferedWriter;
@@ -39,19 +39,19 @@ import javax.swing.table.DefaultTableModel;
 
 
 
-public class Employeesv2 extends javax.swing.JFrame {
+public class Employeesv3 extends javax.swing.JFrame {
 
     /**
      * Feb 19, 2019 Roberto : Creates new form Employees
      */
-    public Employeesv2() {
+    public Employeesv3() {
         initComponents();
         addRowToJTable();  // update the list
     }
     
     String filepath = "staff.txt";  // this file has all the data for this section
     private static Scanner x;
-
+    
 // Feb 19, 2019 Roberto : For the ArrayList Part A
     public class  User{
         public String idArray;
@@ -59,15 +59,16 @@ public class Employeesv2 extends javax.swing.JFrame {
         public String lnameArray;
         public String titleArray;
         public String phoneNumberArray;
+        public String usernameArray;
         
-        public User(String Id, String FName, String LName, String Title, String PhoneNumber)
+        public User(String Id, String FName, String LName, String Title, String PhoneNumber, String Username)
         {
             this.idArray = Id;
             this.fnameArray = FName;
             this.lnameArray = LName;
             this.titleArray = Title;
-            this.phoneNumberArray = PhoneNumber;
-            
+            this.phoneNumberArray = PhoneNumber; 
+            this.usernameArray = Username;
         }
     }   
     
@@ -79,6 +80,7 @@ public class Employeesv2 extends javax.swing.JFrame {
         String lastName = "";
         String title ="";
         String phoneNumber = "";
+        String userName = "";
         
         ArrayList<User> list = new ArrayList<User>();
         
@@ -94,17 +96,15 @@ public class Employeesv2 extends javax.swing.JFrame {
                 lastName = x.next();
                 title = x.next();                
                 phoneNumber = x.next();
-                User uX = new User(employeeID, firstName, lastName, title, phoneNumber);
+                userName = x.next();
+                User uX = new User(employeeID, firstName, lastName, title, phoneNumber, userName);
                 list.add(uX);
             }
-
         }
-        catch(Exception e)
+        catch(FileNotFoundException e)
         {
-            JOptionPane.showMessageDialog(null, "Error");
-            
-        }
-               
+            JOptionPane.showMessageDialog(null, "Error");            
+        }             
         return list;
     }
 
@@ -113,7 +113,7 @@ public class Employeesv2 extends javax.swing.JFrame {
     {
         DefaultTableModel model = (DefaultTableModel) jTable_Employees.getModel();
         ArrayList<User> list = ListUsers();
-        Object rowData[] = new Object[5];
+        Object rowData[] = new Object[7];
         for(int i=0; i < list.size(); i++)
         {
             rowData[0] = list.get(i).idArray;
@@ -121,6 +121,8 @@ public class Employeesv2 extends javax.swing.JFrame {
             rowData[2] = list.get(i).lnameArray;
             rowData[3] = list.get(i).titleArray;
             rowData[4] = list.get(i).phoneNumberArray;
+            rowData[5] = list.get(i).usernameArray;
+            // add row to the model
             model.addRow(rowData);
         }
     }
@@ -147,15 +149,11 @@ public class Employeesv2 extends javax.swing.JFrame {
                 lastName = x.next();
                 title = x.next();                
                 phoneNumber = x.next();
-
-
             }
-
         }
         catch(FileNotFoundException e)
         {
-            JOptionPane.showMessageDialog(null, "Error");
-            
+            JOptionPane.showMessageDialog(null, "Error");            
         }
     }
     
@@ -303,7 +301,7 @@ public class Employeesv2 extends javax.swing.JFrame {
         jTable_Employees = new javax.swing.JTable();
         btn_Add = new javax.swing.JButton();
         btn_Delete = new javax.swing.JButton();
-        btn_Refresh = new javax.swing.JButton();
+        btn_Update = new javax.swing.JButton();
         btn_clear = new javax.swing.JButton();
         txt_SearchEmployeeID = new javax.swing.JTextField();
         btn_searchEmployeeID = new javax.swing.JButton();
@@ -341,6 +339,7 @@ public class Employeesv2 extends javax.swing.JFrame {
 
         txt_employeeID.setText(" ");
 
+        jTable_Employees.setBackground(new java.awt.Color(51, 255, 255));
         jTable_Employees.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -365,9 +364,18 @@ public class Employeesv2 extends javax.swing.JFrame {
             }
         });
 
+        btn_Delete.setFont(new java.awt.Font("Lucida Grande", 1, 11)); // NOI18N
         btn_Delete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/minus.png"))); // NOI18N
+        btn_Delete.setText("DELETE");
+        btn_Delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_DeleteActionPerformed(evt);
+            }
+        });
 
-        btn_Refresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/update.png"))); // NOI18N
+        btn_Update.setFont(new java.awt.Font("Lucida Grande", 1, 11)); // NOI18N
+        btn_Update.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/update.png"))); // NOI18N
+        btn_Update.setText("UPDATE");
 
         btn_clear.setText("Clear");
         btn_clear.addActionListener(new java.awt.event.ActionListener() {
@@ -412,7 +420,7 @@ public class Employeesv2 extends javax.swing.JFrame {
                             .addComponent(txt_PhoneNumber)
                             .addComponent(txt_Username)
                             .addComponent(txt_Password))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_clear)
@@ -427,11 +435,11 @@ public class Employeesv2 extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(133, 133, 133)
                 .addComponent(btn_Add)
-                .addGap(140, 140, 140)
+                .addGap(63, 63, 63)
                 .addComponent(btn_Delete)
-                .addGap(143, 143, 143)
-                .addComponent(btn_Refresh)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addGap(65, 65, 65)
+                .addComponent(btn_Update)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -475,11 +483,11 @@ public class Employeesv2 extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(txt_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Add)
                     .addComponent(btn_Delete)
-                    .addComponent(btn_Refresh))
-                .addGap(85, 85, 85))
+                    .addComponent(btn_Update))
+                .addGap(84, 84, 84))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -495,7 +503,7 @@ public class Employeesv2 extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(110, 110, 110)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(209, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -565,10 +573,19 @@ public class Employeesv2 extends javax.swing.JFrame {
     private void jTable_EmployeesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_EmployeesMouseClicked
         int row = jTable_Employees.getSelectedRow();
         String tableClick = jTable_Employees.getModel().getValueAt(row, 2).toString();
-        
-        //txt_employeeID.setText(model.getValueAt(row, 0));
-        
+
+        ShowItem(row); 
     }//GEN-LAST:event_jTable_EmployeesMouseClicked
+
+    private void btn_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DeleteActionPerformed
+        int row =jTable_Employees.getSelectedRow();
+        if (row >= 0)
+        {
+            // remove a row from table
+            
+        }
+        
+    }//GEN-LAST:event_btn_DeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -587,21 +604,23 @@ public class Employeesv2 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Employeesv2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employeesv3.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Employeesv2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employeesv3.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Employeesv2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employeesv3.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Employeesv2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employeesv3.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Employeesv2().setVisible(true);
+                new Employeesv3().setVisible(true);
             }
         });
     }
@@ -609,7 +628,7 @@ public class Employeesv2 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_Add;
     private javax.swing.JButton btn_Delete;
-    private javax.swing.JButton btn_Refresh;
+    private javax.swing.JButton btn_Update;
     private javax.swing.JButton btn_clear;
     private javax.swing.JButton btn_searchEmployeeID;
     private javax.swing.JButton jButton1;

@@ -36,7 +36,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="110" max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="209" max="32767" attributes="0"/>
+              <EmptySpace pref="136" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -120,7 +120,7 @@
                               <Component id="txt_Username" max="32767" attributes="0"/>
                               <Component id="txt_Password" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="79" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
@@ -141,11 +141,11 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="133" max="-2" attributes="0"/>
                   <Component id="btn_Add" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="140" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
                   <Component id="btn_Delete" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
-                  <Component id="btn_Refresh" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="103" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
+                  <Component id="btn_Update" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -202,12 +202,12 @@
                       <Component id="txt_Password" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="btn_Add" min="-2" max="-2" attributes="0"/>
-                      <Component id="btn_Delete" min="-2" max="-2" attributes="0"/>
-                      <Component id="btn_Refresh" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="btn_Add" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_Delete" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btn_Update" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -257,6 +257,9 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="jTable_Employees">
               <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="33" type="rgb"/>
+                </Property>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="5" rowCount="0">
                     <Column editable="true" title="Employee ID" type="java.lang.Object"/>
@@ -321,16 +324,27 @@
         </Component>
         <Component class="javax.swing.JButton" name="btn_Delete">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Lucida Grande" size="11" style="1"/>
+            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/java_icons/minus.png"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="DELETE"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_DeleteActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btn_Refresh">
+        <Component class="javax.swing.JButton" name="btn_Update">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Lucida Grande" size="11" style="1"/>
+            </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/java_icons/update.png"/>
             </Property>
+            <Property name="text" type="java.lang.String" value="UPDATE"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btn_clear">
