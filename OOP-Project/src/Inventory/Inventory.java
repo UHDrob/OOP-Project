@@ -29,53 +29,118 @@ import javax.swing.table.DefaultTableModel;
  * Updated: Feb 21, 2019
  * Nina Lalonde
  * Update: Feb 24, 2019
- * Things to work on: Display information from file to table
- *                    Search for multiple fields not just the ID
+ * Things to work on: *Display information from file to table
+ *                    *Search for multiple fields not just the ID
+ * Update: Feb 26, 2019
+ *                    *checkInput() is not functioning properly, empty fields are
+ *                    allowed to be entered into data storage
  */
 
 
 
-public class Inventory extends javax.swing.JFrame {
-
+public class Inventory extends javax.swing.JFrame 
+{
     /*
      * Creates New Inventory item
      */
     public Inventory() 
     {
         initComponents();
+        
     }
     
     // Links to Inventory.txt file
     String filepath = "Inventory.txt";
     private static Scanner x;
     
-  
+    public class Items
+    {
+        public String idArray;
+        public String titleArray;
+        public String authorArray;
+        public String isbnArray;
+        public String genreArray;
+        public String priceArray;
+        public String mediaTypeArray;
+        
+        public Items(String id, String title, String author, String isbn, String genre, String price, String mediaType)
+        {
+            this.idArray = id;
+            this.titleArray = title;
+            this.authorArray = author;
+            this.isbnArray = isbn;
+            this.genreArray = genre;
+            this.priceArray = price;
+            this.mediaTypeArray = mediaType;
+        }
+    }
     
+    public ArrayList ListItems()
+    {
+        String id = ""; 
+        String title = ""; 
+        String author = "";
+        String isbn ="";
+        String genre = "";
+        String price ="";
+        String mediaType = "";
+        
+        ArrayList<Items> list = new ArrayList<Items>();
+        
+        try
+        {
+            x = new Scanner(new File(filepath));
+            x.useDelimiter("[,\n]");
+            
+            while(x.hasNext() )
+            {
+                id = x.next();
+                title = x.next();
+                author = x.next();
+                isbn = x.next();                
+                genre = x.next();
+                price = x.next();                
+                mediaType = x.next();
+                Items itemL = new Items(id, title, author, isbn, genre, price, mediaType);
+                list.add(itemL);
+            }
+
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error");
+            
+        }
+               
+        return list;
+    }
+     
+
     public boolean checkInputs()
     {/* Check Input Fields, if any are null, end error message
-        works fine*/
+        not working, need to revise allows null fields to be entered*/
    
         if (     // check to make sure all fields have a value  
-                txt_New_InventoryNo.getText() == null
-                || txt_New_Title.getText()== null
-                || txt_New_Author.getText() == null
-                || txt_New_ISBN.getText() == null
-                || txt_New_Genre.getText() == null
-                || txt_New_Price.getText() == null
-                || txt_New_Media_Type.getText() == null
+                txt_New_InventoryNo.getText() == null ||
+                txt_New_Title.getText()== null        ||
+                txt_New_Author.getText() == null      ||
+                txt_New_ISBN.getText() == null        ||
+                txt_New_Genre.getText() == null       ||
+                txt_New_Price.getText() == null       ||
+                txt_New_Media_Type.getText() == null
             )
-        { // if a field is not complete return false
-        return false;
-        }
+        // if a field is not complete return false
+            return false;
+        
         else
-        {// all fields are complete, proceed
+        // all fields are complete, proceed
             return true;
-        }
+        
     }
     
     public static void readRecord (String searchterm, String filepath)
     {   /* Search Inventory Records, need to fix want to search for more than 
-        justh the invetory ID, would like to search multiple fields*/ 
+        just the invetory ID, would like to search multiple fields*/ 
         boolean found = false;
         String id = ""; 
         String title = ""; 
@@ -99,7 +164,11 @@ public class Inventory extends javax.swing.JFrame {
                 genre = x.next();
                 price = x.next();
                 mediaType = x.next();
-                
+                /* this statement is not true, need to access each txt field to 
+                see if they match 
+                this statement assumes that fields cannot be the same values
+                what if there are multiple books with the same author
+                want to display them all, possibly within the table*/
                 if(id.equals(searchterm)||
                         title.equals(searchterm)||
                         author.equals(searchterm))
@@ -107,7 +176,7 @@ public class Inventory extends javax.swing.JFrame {
                     found = true;
                 }
             }
-            
+            // this statement is fine
             if (found)
             {
                 JOptionPane.showMessageDialog(null, "ID: " + id 
@@ -131,9 +200,10 @@ public class Inventory extends javax.swing.JFrame {
     }
    
         public static void saveRecord(String ID, String title, String author, String isbn, String genre, String price, String mediaType, String FilePath)
-    {    // Save new records to text file, works fine
+    {    // read data to be saved to text file
+           // works fine, except doesn't check that all fields are not null
         try
-        {
+        {   
             FileWriter fw = new FileWriter(FilePath, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
@@ -144,10 +214,12 @@ public class Inventory extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(null, "Record Saved");
         }
+       
         catch(Exception E)
         {
             JOptionPane.showMessageDialog(null, "Record NOT Saved");
         }
+ 
     }
   
  
@@ -165,7 +237,7 @@ public class Inventory extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        btn_SearchBarcode = new javax.swing.JButton();
+        btn_SearchButton = new javax.swing.JButton();
         btn_clear = new javax.swing.JButton();
         txt_SearchID = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -211,10 +283,10 @@ public class Inventory extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(51, 204, 0));
 
-        btn_SearchBarcode.setText("Search ");
-        btn_SearchBarcode.addActionListener(new java.awt.event.ActionListener() {
+        btn_SearchButton.setText("Search ");
+        btn_SearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_SearchBarcodeActionPerformed(evt);
+                btn_SearchButtonActionPerformed(evt);
             }
         });
 
@@ -251,7 +323,7 @@ public class Inventory extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btn_clear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btn_SearchBarcode, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                    .addComponent(btn_SearchButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel10)
                         .addGap(12, 12, 12)
@@ -272,7 +344,7 @@ public class Inventory extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addComponent(btn_SearchBarcode)
+                .addComponent(btn_SearchButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_SearchID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -495,25 +567,30 @@ public class Inventory extends javax.swing.JFrame {
 
     private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
         //Clears data input into the search boxes
+        // Works fine
         txt_SearchID.setText(null);
         txt_SearchTitle.setText(null);
         txt_SearchAuthor.setText(null);
  
     }//GEN-LAST:event_btn_clearActionPerformed
 
-    private void btn_SearchBarcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SearchBarcodeActionPerformed
+    private void btn_SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SearchButtonActionPerformed
+        /* this needs to read from multiple fields to find the value,
+          possible loop to determine which text field to utilize for searching*/      
         String searchTerm = txt_SearchID.getText();
 
         readRecord(searchTerm,filepath);
-    }//GEN-LAST:event_btn_SearchBarcodeActionPerformed
+    }//GEN-LAST:event_btn_SearchButtonActionPerformed
 
     private void txt_SearchIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_SearchIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_SearchIDActionPerformed
 
     private void btn_Add_New_InventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Add_New_InventoryActionPerformed
-        if(checkInputs() )
-        {// After clicking new, add items to text file
+        if(checkInputs())
+        {/* After clicking new, add items to text file
+            This works fine, but checkInputs does not*/
+        
             String id = txt_New_InventoryNo.getText();
             String title = txt_New_Title.getText();
             String author = txt_New_Author.getText();
@@ -591,7 +668,7 @@ public class Inventory extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable Invetory_Table;
     private javax.swing.JButton btn_Add_New_Inventory;
-    private javax.swing.JButton btn_SearchBarcode;
+    private javax.swing.JButton btn_SearchButton;
     private javax.swing.JButton btn_clear;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
