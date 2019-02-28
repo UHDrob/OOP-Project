@@ -163,11 +163,11 @@ public class Employeesv2 extends javax.swing.JFrame {
         // to verify they are not empty
     public boolean checkInputs()
     {
-        if (        txt_employeeID.getText() == null
-                || txt_FirstName.getText()== null
-                || txt_LastName.getText() == null
-                || txt_Title.getText() == null
-                || txt_PhoneNumber.getText() == null)
+        if (        txt_employeeID.getText().equals("")
+                || txt_FirstName.getText().equals("")
+                || txt_LastName.getText().equals("")
+                || txt_Title.getText().equals("")
+                || txt_PhoneNumber.getText().equals(""))
         {
         return false;
         }
