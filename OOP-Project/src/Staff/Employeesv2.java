@@ -21,20 +21,16 @@ Select from list and fill out the fields  IN PROGRESS
 package Staff;
 /**
  * Created: Feb 1, 2019
- * Modified: Feb 4, 2019
+ * Modified: Feb 23, 2019
  * @author Roberto Gomez
  * @version 2
  */
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
@@ -115,7 +111,7 @@ public class Employeesv2 extends javax.swing.JFrame {
 // Feb 19, 2019 Roberto : For the ArrayList Part C
         public void addRowToJTable()
     {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel) jTable_Employees.getModel();
         ArrayList<User> list = ListUsers();
         Object rowData[] = new Object[5];
         for(int i=0; i < list.size(); i++)
@@ -156,7 +152,7 @@ public class Employeesv2 extends javax.swing.JFrame {
             }
 
         }
-        catch(Exception e)
+        catch(FileNotFoundException e)
         {
             JOptionPane.showMessageDialog(null, "Error");
             
@@ -271,6 +267,16 @@ public class Employeesv2 extends javax.swing.JFrame {
         }
     }
     
+            // Show Data In Inputs
+    public void ShowItem(int index)
+    {
+         //   txt_employeeID.setText(Integer.toString(ListUsers().get(index).getemployeeid()));                  
+         //   txt_FirstName.setText(ListUsers().get(index).getfirstname());
+         //   txt_LastName.setText(ListUsers().get(index).getlastname()); 
+         //   txt_Title.setText(ListUsers().get(index).getemployeetitle());
+         //   txt_PhoneNumber.setText(ListUsers().get(index).getphonenumber());
+    }  
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -294,7 +300,7 @@ public class Employeesv2 extends javax.swing.JFrame {
         txt_Title = new javax.swing.JTextField();
         txt_PhoneNumber = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_Employees = new javax.swing.JTable();
         btn_Add = new javax.swing.JButton();
         btn_Delete = new javax.swing.JButton();
         btn_Refresh = new javax.swing.JButton();
@@ -335,7 +341,7 @@ public class Employeesv2 extends javax.swing.JFrame {
 
         txt_employeeID.setText(" ");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_Employees.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -343,7 +349,12 @@ public class Employeesv2 extends javax.swing.JFrame {
                 "Employee ID", "First Name", "Last Name", "Title", "Phone Number"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jTable_Employees.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_EmployeesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable_Employees);
 
         btn_Add.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btn_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/add.png"))); // NOI18N
@@ -527,9 +538,10 @@ public class Employeesv2 extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "One or More Fields Are Empty");
 
-        }        
-                
-        addRowToJTable();
+        }
+
+  
+       // addRowToJTable();
     }//GEN-LAST:event_btn_AddActionPerformed
 
     private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
@@ -549,6 +561,14 @@ public class Employeesv2 extends javax.swing.JFrame {
         
         searchRecord(searchTerm,filepath);
     }//GEN-LAST:event_btn_searchEmployeeIDActionPerformed
+
+    private void jTable_EmployeesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_EmployeesMouseClicked
+        int row = jTable_Employees.getSelectedRow();
+        String tableClick = jTable_Employees.getModel().getValueAt(row, 2).toString();
+        
+        //txt_employeeID.setText(model.getValueAt(row, 0));
+        
+    }//GEN-LAST:event_jTable_EmployeesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -602,7 +622,7 @@ public class Employeesv2 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable_Employees;
     private javax.swing.JLabel lbl_Username;
     private javax.swing.JTextField txt_FirstName;
     private javax.swing.JTextField txt_LastName;
