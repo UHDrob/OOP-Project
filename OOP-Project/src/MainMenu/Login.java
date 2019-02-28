@@ -3,15 +3,15 @@
  *
 Description: This will serve to authenticate credentials from the user
              comparing username and password with the ones on staff.txt
-             It will request user input and the search on the text file
-             if found, then grant access to the program
+             It will request user input and then search on the text file
+             if found, then it will grant access to the program
 Dependencies: None
 Fields:       Username, password
  */
 
 /**
  * Created: Feb 8,2019
- * Modified Feb 21, 2019
+ * Modified Feb 28, 2019
  * @author ROBERTO GOMEZ
  * @version 1
  */
@@ -212,6 +212,8 @@ private JFrame frame;
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE,null,ex);
                 }
     }//GEN-LAST:event_jtxtLoginActionPerformed
+    
+    // Feb 28, 2019 Roberto : Close the current window
     private void CloseMe(){
         WindowEvent meClose = new WindowEvent (this, WindowEvent.WINDOW_CLOSED);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(meClose);
@@ -250,7 +252,7 @@ private JFrame frame;
         //</editor-fold>
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the form Main Meny */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Login().setVisible(true);
