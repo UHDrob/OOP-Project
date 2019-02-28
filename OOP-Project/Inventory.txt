@@ -1,9 +1,4 @@
 testID, testTitle, testAuthor, testISBN, testGenre, testPrice, testMediaType
 1324,Test 1,No one,124355476353,Comedy,1.99,Book
-Test 2 ,Test 2,Test 2,test 2,Test 2,Test 2,Test 2
-Test 3,,,,,,
-12353,,,,,,
-23423,,,,,,
-,no,no,no,no,no,
-,232,,,,,
-,233,,,,,
+Test 2 ,Test 2,Test 2,test 2,Test 2,Test 2,Test 
+

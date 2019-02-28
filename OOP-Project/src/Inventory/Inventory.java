@@ -10,6 +10,8 @@ import Staff.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -19,9 +21,11 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
-/**
+/*//////////////////////////////////////////////////////////////////////////////
  * Created: Feb 1, 2019
  * Modified: Feb 4, 2019
  * @author Roberto Gomez
@@ -32,28 +36,38 @@ import javax.swing.table.DefaultTableModel;
  * Things to work on: *Display information from file to table
  *                    *Search for multiple fields not just the ID
  * Update: Feb 26, 2019
- *                    *checkInput() is not functioning properly, empty fields are
- *                    allowed to be entered into data storage
- */
-
-
+ *                    *checkInput() is not functioning properly
+ * Update: Feb 28, 2019: 
+ *      Completed: Display file data to table
+ *                 checkInput() functioning correctly
+ *      To do: Search multiple fields
+ *             Now recieving error message when going to Inventory screen
+ *             Verify information prior to saving data in text file
+ *             Start Report Class            
+ /////////////////////////////////////////////////////////////////////////////*/
 
 public class Inventory extends javax.swing.JFrame 
 {
+
+    private String filePath;
     /*
      * Creates New Inventory item
      */
     public Inventory() 
     {
         initComponents();
-        
+        addRowToJTable();   
     }
     
     // Links to Inventory.txt file
     String filepath = "Inventory.txt";
     private static Scanner x;
     
-    public class Items
+    /*//////////////////////////////////////////////////////////////////////////
+    //  This section reads data stored in the text file and displayes it in   //
+    //  the InventoryTable                                                    //
+    //////////////////////////////////////////////////////////////////////////*/
+    public class Items // Create arrays to store values for table
     {
         public String idArray;
         public String titleArray;
@@ -63,7 +77,8 @@ public class Inventory extends javax.swing.JFrame
         public String priceArray;
         public String mediaTypeArray;
         
-        public Items(String id, String title, String author, String isbn, String genre, String price, String mediaType)
+        public Items(String id, String title, String author, String isbn, String
+                genre, String price, String mediaType)
         {
             this.idArray = id;
             this.titleArray = title;
@@ -75,18 +90,17 @@ public class Inventory extends javax.swing.JFrame
         }
     }
     
-    public ArrayList ListItems()
+    public ArrayList ListItems()// Used to create rows for table
     {
-        String id = ""; 
+        String itemID = ""; 
         String title = ""; 
         String author = "";
         String isbn ="";
         String genre = "";
-        String price ="";
+        String price = "";
         String mediaType = "";
         
         ArrayList<Items> list = new ArrayList<Items>();
-        
         try
         {
             x = new Scanner(new File(filepath));
@@ -94,15 +108,17 @@ public class Inventory extends javax.swing.JFrame
             
             while(x.hasNext() )
             {
-                id = x.next();
+                itemID = x.next();
                 title = x.next();
                 author = x.next();
                 isbn = x.next();                
                 genre = x.next();
-                price = x.next();                
+                price = x.next();
                 mediaType = x.next();
-                Items itemL = new Items(id, title, author, isbn, genre, price, mediaType);
-                list.add(itemL);
+                
+                Items iList = new Items(itemID, title, author, isbn, genre, 
+                        price, mediaType);
+                list.add(iList);
             }
 
         }
@@ -110,32 +126,48 @@ public class Inventory extends javax.swing.JFrame
         {
             JOptionPane.showMessageDialog(null, "Error");
             
-        }
-               
+        }      
         return list;
     }
-     
-
+    
+    public void addRowToJTable()
+    {// Creates rows in JTable
+        DefaultTableModel model = (DefaultTableModel) InventoryTable.getModel();
+        ArrayList<Items> list = ListItems();
+        Object rowData[] = new Object[7];
+        for(int i=0; i < list.size(); i++)
+        {
+            rowData[0] = list.get(i).idArray;
+            rowData[1] = list.get(i).titleArray;
+            rowData[2] = list.get(i).authorArray;
+            rowData[3] = list.get(i).isbnArray;
+            rowData[4] = list.get(i).genreArray;
+            rowData[5] = list.get(i).priceArray;
+            rowData[6] = list.get(i).mediaTypeArray;
+            model.addRow(rowData);
+        }
+    }
+/*//////////////////////////////////////////////////////////////////////////////
+//  Handling of data being output to text file
+//////////////////////////////////////////////////////////////////////////////*/    
     public boolean checkInputs()
-    {/* Check Input Fields, if any are null, end error message
-        not working, need to revise allows null fields to be entered*/
-   
-        if (     // check to make sure all fields have a value  
-                txt_New_InventoryNo.getText() == null ||
-                txt_New_Title.getText()== null        ||
-                txt_New_Author.getText() == null      ||
-                txt_New_ISBN.getText() == null        ||
-                txt_New_Genre.getText() == null       ||
-                txt_New_Price.getText() == null       ||
-                txt_New_Media_Type.getText() == null
+    {// Check Input Fields, if any are null, send error message
+                
+        if (    // check to make sure all fields have a value  
+                txt_New_InventoryNo.getText().equals("") 
+                || txt_New_Title.getText().equals("")
+                || txt_New_Author.getText().equals("")   
+                || txt_New_ISBN.getText().equals("")      
+                || txt_New_Genre.getText().equals("")     
+                || txt_New_Price.getText().equals("")    
+                || txt_New_Media_Type.getText().equals("")
             )
         // if a field is not complete return false
             return false;
         
         else
         // all fields are complete, proceed
-            return true;
-        
+            return true;    
     }
     
     public static void readRecord (String searchterm, String filepath)
@@ -199,9 +231,10 @@ public class Inventory extends javax.swing.JFrame
         }
     }
    
-        public static void saveRecord(String ID, String title, String author, String isbn, String genre, String price, String mediaType, String FilePath)
+    public static void saveRecord(String ID, String title, String author, String
+            isbn, String genre, String price, String mediaType, String FilePath)
     {    // read data to be saved to text file
-           // works fine, except doesn't check that all fields are not null
+         // works fine
         try
         {   
             FileWriter fw = new FileWriter(FilePath, true);
@@ -262,7 +295,7 @@ public class Inventory extends javax.swing.JFrame
         jLabel11 = new javax.swing.JLabel();
         txt_New_Media_Type = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Invetory_Table = new javax.swing.JTable();
+        InventoryTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 204, 255));
@@ -412,7 +445,7 @@ public class Inventory extends javax.swing.JFrame
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap(34, Short.MAX_VALUE)
+                        .addContainerGap(436, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -425,7 +458,7 @@ public class Inventory extends javax.swing.JFrame
                             .addComponent(txt_New_InventoryNo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_New_Title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                             .addComponent(txt_New_Author, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 171, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 572, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel6)
                             .addComponent(jLabel8)
@@ -480,51 +513,49 @@ public class Inventory extends javax.swing.JFrame
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        Invetory_Table.setModel(new javax.swing.table.DefaultTableModel(
+        InventoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "ID", "Title", "Author", "ISBN", "Genre", "Price", "Media Type"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
             };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(Invetory_Table);
+        jScrollPane1.setViewportView(InventoryTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(63, 63, 63)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 882, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(151, 151, 151))
+                        .addGap(32, 32, 32)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(50, 50, 50)
+                .addGap(33, 33, 33)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(214, Short.MAX_VALUE))
+                .addContainerGap(489, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -575,8 +606,9 @@ public class Inventory extends javax.swing.JFrame
     }//GEN-LAST:event_btn_clearActionPerformed
 
     private void btn_SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SearchButtonActionPerformed
-        /* this needs to read from multiple fields to find the value,
-          possible loop to determine which text field to utilize for searching*/      
+        /* this needs to read from multiple text fields to find the value,
+          possible case to determine which text field to utilize for searching*/      
+    
         String searchTerm = txt_SearchID.getText();
 
         readRecord(searchTerm,filepath);
@@ -587,9 +619,9 @@ public class Inventory extends javax.swing.JFrame
     }//GEN-LAST:event_txt_SearchIDActionPerformed
 
     private void btn_Add_New_InventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Add_New_InventoryActionPerformed
-        if(checkInputs())
+        if(checkInputs()== true)
         {/* After clicking new, add items to text file
-            This works fine, but checkInputs does not*/
+            Works fine*/
         
             String id = txt_New_InventoryNo.getText();
             String title = txt_New_Title.getText();
@@ -666,7 +698,7 @@ public class Inventory extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable Invetory_Table;
+    private javax.swing.JTable InventoryTable;
     private javax.swing.JButton btn_Add_New_Inventory;
     private javax.swing.JButton btn_SearchButton;
     private javax.swing.JButton btn_clear;
