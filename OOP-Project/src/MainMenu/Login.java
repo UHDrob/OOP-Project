@@ -3,35 +3,27 @@
  *
 Description: This will serve to authenticate credentials from the user
              comparing username and password with the ones on staff.txt
-             It will request user input and the search on the text file
-             if found, then grant access to the program
+             It will request user input and then search on the text file
+             if found, then it will grant access to the program
 Dependencies: None
 Fields:       Username, password
  */
 
 /**
  * Created: Feb 8,2019
- * Modified Feb 21, 2019
+ * Modified Feb 28, 2019
  * @author ROBERTO GOMEZ
- * @version 1
+ * @version 2
  */
 package MainMenu;
 
-import javax.swing.JOptionPane;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.swing.JFrame;
 //import com.sun.jndi.ldap.Connection;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Login extends javax.swing.JFrame {
-java.sql.Connection conn = null;
-ResultSet rs = null;
-Statement st;
+
 
 private JFrame frame;
     /**
@@ -54,58 +46,55 @@ private JFrame frame;
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jtxtUsername = new javax.swing.JTextField();
-        jtxtPassword = new javax.swing.JPasswordField();
-        jtxtLogin = new javax.swing.JButton();
-        jtxtReset = new javax.swing.JButton();
-        jtxtExit = new javax.swing.JButton();
+        txt_username = new javax.swing.JTextField();
+        btn_login = new javax.swing.JButton();
+        btn_reset = new javax.swing.JButton();
+        btn_exit = new javax.swing.JButton();
+        txt_password = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1380, 800));
+        setMinimumSize(new java.awt.Dimension(1400, 800));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(102, 255, 0));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 51, 204))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 11), new java.awt.Color(0, 51, 204))); // NOI18N
         jPanel1.setForeground(new java.awt.Color(153, 204, 0));
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
         jLabel2.setText("Username");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
         jLabel3.setText("Password");
         jLabel3.setToolTipText("");
 
-        jtxtUsername.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jtxtUsername.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
+        txt_username.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        txt_username.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
 
-        jtxtPassword.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jtxtPassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 4));
-
-        jtxtLogin.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jtxtLogin.setText("Login");
-        jtxtLogin.setToolTipText("");
-        jtxtLogin.addActionListener(new java.awt.event.ActionListener() {
+        btn_login.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btn_login.setText("Login");
+        btn_login.setToolTipText("");
+        btn_login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtLoginActionPerformed(evt);
+                btn_loginActionPerformed(evt);
             }
         });
 
-        jtxtReset.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jtxtReset.setText("Reset");
-        jtxtReset.addActionListener(new java.awt.event.ActionListener() {
+        btn_reset.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btn_reset.setText("Reset");
+        btn_reset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtResetActionPerformed(evt);
+                btn_resetActionPerformed(evt);
             }
         });
 
-        jtxtExit.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jtxtExit.setText("Exit");
-        jtxtExit.setToolTipText("");
-        jtxtExit.addActionListener(new java.awt.event.ActionListener() {
+        btn_exit.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btn_exit.setText("Exit");
+        btn_exit.setToolTipText("");
+        btn_exit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtExitActionPerformed(evt);
+                btn_exitActionPerformed(evt);
             }
         });
 
@@ -116,22 +105,23 @@ private JFrame frame;
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(52, 52, 52)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jtxtLogin)
+                    .addComponent(btn_login)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2)
                         .addComponent(jLabel3)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(btn_reset)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                        .addComponent(btn_exit)
+                        .addGap(117, 117, 117))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(40, 40, 40)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jtxtPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-                            .addComponent(jtxtUsername)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jtxtReset)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                        .addComponent(jtxtExit)
-                        .addGap(117, 117, 117))))
+                            .addComponent(txt_username, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+                            .addComponent(txt_password))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -139,79 +129,63 @@ private JFrame frame;
                 .addGap(59, 59, 59)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jtxtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(56, 56, 56)
+                    .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(53, 53, 53)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jtxtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtLogin)
-                    .addComponent(jtxtReset)
-                    .addComponent(jtxtExit))
+                    .addComponent(btn_login)
+                    .addComponent(btn_reset)
+                    .addComponent(btn_exit))
                 .addGap(62, 62, 62))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(251, 172, -1, -1));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Viner Hand ITC", 1, 48)); // NOI18N
         jLabel1.setText("LIBRARY MANAGEMENT SYSTEM");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(251, 96, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtxtExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtExitActionPerformed
+    private void btn_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exitActionPerformed
         System.exit(0);
-    }//GEN-LAST:event_jtxtExitActionPerformed
+    }//GEN-LAST:event_btn_exitActionPerformed
 
-    private void jtxtResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtResetActionPerformed
-        jtxtUsername.setText(null);
-        jtxtPassword.setText(null);
-    }//GEN-LAST:event_jtxtResetActionPerformed
+    private void btn_resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetActionPerformed
+        txt_username.setText(null);
+        txt_password.setText(null);
+    }//GEN-LAST:event_btn_resetActionPerformed
 
-    private void jtxtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtLoginActionPerformed
+    private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
         
-        String password = jtxtPassword.getText();
-        String username = jtxtUsername.getText();
+        String password = txt_password.getText();
+        String username = txt_username.getText();
         
-        try {
-            int log = 1;
+
+
 // READ STAFF.TXT
  
-            
-            while (rs.next())
+
+// Feb 28, 2019 Roberto: Verify credentials
+            if (password.contains("one") && (username.contains("king")))
             {
-                          
-                if (rs.getString(11).equals(username) && rs.getString(12).equals(password))
-                {
-                    log = 0;
-                        break;
-                }
+                txt_username.setText(null);
+                txt_password.setText(null);
+                systemExit();
+                
+                MenuFrame Info = new MenuFrame();
+                Info.setVisible(true);
+         
             }
-            if(log == 0)
-        
-            {
-                 JOptionPane.showMessageDialog(null,"ACCESS GRANTED");
-                   CloseMe(); // Create class 
-                    MenuFrame Info = new MenuFrame();
-                    Info.setVisible(true);
-                    
-             }
-        else
-            {
-                JOptionPane.showMessageDialog(null,"Invalid Login Details", "ACCESS DENIED", JOptionPane.ERROR_MESSAGE);
-                jtxtPassword.setText(null);
-                jtxtUsername.setText(null);
-                jtxtUsername.grabFocus();
-            }
-        }
-        
-        catch (SQLException ex)
-                {
-                Logger.getLogger(Login.class.getName()).log(Level.SEVERE,null,ex);
-                }
-    }//GEN-LAST:event_jtxtLoginActionPerformed
+           
+
+    }//GEN-LAST:event_btn_loginActionPerformed
+    
+    // Feb 28, 2019 Roberto : Close the current window
     private void CloseMe(){
         WindowEvent meClose = new WindowEvent (this, WindowEvent.WINDOW_CLOSED);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(meClose);
@@ -250,7 +224,7 @@ private JFrame frame;
         //</editor-fold>
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the form Main Meny */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Login().setVisible(true);
@@ -259,15 +233,15 @@ private JFrame frame;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_exit;
+    private javax.swing.JButton btn_login;
+    private javax.swing.JButton btn_reset;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton jtxtExit;
-    private javax.swing.JButton jtxtLogin;
-    private javax.swing.JPasswordField jtxtPassword;
-    private javax.swing.JButton jtxtReset;
-    private javax.swing.JTextField jtxtUsername;
+    private javax.swing.JPasswordField txt_password;
+    private javax.swing.JTextField txt_username;
     // End of variables declaration//GEN-END:variables
 
     private void systemExit()

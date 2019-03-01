@@ -141,7 +141,7 @@ public class CheckIn extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        btn_Return = new javax.swing.JButton();
+        btn_checking = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btn_SearchBarcode = new javax.swing.JButton();
         btn_clear = new javax.swing.JButton();
@@ -157,6 +157,14 @@ public class CheckIn extends javax.swing.JFrame {
         txt_Account = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txt_DueDate = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        btn_checkout1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        InventoryTable = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        btn_SearchBarcode1 = new javax.swing.JButton();
+        btn_clear1 = new javax.swing.JButton();
+        txt_SearchInventory1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 204, 255));
@@ -175,18 +183,18 @@ public class CheckIn extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(51, 204, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CHECK IN", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 3, 24))); // NOI18N
 
-        btn_Return.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btn_Return.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/add.png"))); // NOI18N
-        btn_Return.setText("RETURN");
-        btn_Return.addActionListener(new java.awt.event.ActionListener() {
+        btn_checking.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btn_checking.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/add.png"))); // NOI18N
+        btn_checking.setText("Check In");
+        btn_checking.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_ReturnActionPerformed(evt);
+                btn_checkingActionPerformed(evt);
             }
         });
 
         jPanel2.setBackground(new java.awt.Color(51, 204, 0));
 
-        btn_SearchBarcode.setText("Search by Inventory");
+        btn_SearchBarcode.setText("Search Customer");
         btn_SearchBarcode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_SearchBarcodeActionPerformed(evt);
@@ -238,6 +246,8 @@ public class CheckIn extends javax.swing.JFrame {
 
         jLabel6.setText("Due Date:");
 
+        jLabel7.setText("Check Out Date:");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -245,11 +255,14 @@ public class CheckIn extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 80, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(txt_InventoryNo, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,11 +302,80 @@ public class CheckIn extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(txt_Account, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
+                .addGap(22, 22, 22)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txt_DueDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(157, Short.MAX_VALUE))
+        );
+
+        btn_checkout1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btn_checkout1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/add.png"))); // NOI18N
+        btn_checkout1.setText("Check Out");
+        btn_checkout1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_checkout1ActionPerformed(evt);
+            }
+        });
+
+        InventoryTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Title", "Author", "ISBN", "Genre", "Price", "Media Type"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(InventoryTable);
+
+        jPanel4.setBackground(new java.awt.Color(51, 204, 0));
+
+        btn_SearchBarcode1.setText("Search by Inventory");
+        btn_SearchBarcode1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_SearchBarcode1ActionPerformed(evt);
+            }
+        });
+
+        btn_clear1.setText("Clear");
+        btn_clear1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_clear1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btn_SearchBarcode1)
+                .addGap(43, 43, 43)
+                .addComponent(txt_SearchInventory1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addComponent(btn_clear1)
+                .addContainerGap(46, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_SearchBarcode1)
+                    .addComponent(btn_clear1)
+                    .addComponent(txt_SearchInventory1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -303,27 +385,58 @@ public class CheckIn extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(42, 42, 42)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_Return)))
-                .addContainerGap(727, Short.MAX_VALUE))
+                        .addGap(27, 27, 27)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(330, 330, 330)
+                .addComponent(btn_checking)
+                .addContainerGap(683, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(607, 607, 607)
+                    .addComponent(btn_checkout1)
+                    .addContainerGap(874, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(375, 375, 375)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 882, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(375, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(32, 32, 32)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(1135, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addComponent(btn_Return))
+                        .addGap(21, 21, 21)
+                        .addComponent(btn_checking))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(82, 82, 82)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(48, 48, 48)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(220, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(21, 21, 21)
+                    .addComponent(btn_checkout1)
+                    .addContainerGap(621, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(140, 140, 140)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(140, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(74, 74, 74)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(581, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -378,7 +491,7 @@ public class CheckIn extends javax.swing.JFrame {
         readRecord(searchTerm,filepath);
     }//GEN-LAST:event_btn_SearchBarcodeActionPerformed
 
-    private void btn_ReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ReturnActionPerformed
+    private void btn_checkingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_checkingActionPerformed
         if(checkInputs() )
         {
             String ID = txt_InventoryNo.getText();
@@ -397,7 +510,19 @@ public class CheckIn extends javax.swing.JFrame {
 
         }
 
-    }//GEN-LAST:event_btn_ReturnActionPerformed
+    }//GEN-LAST:event_btn_checkingActionPerformed
+
+    private void btn_checkout1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_checkout1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_checkout1ActionPerformed
+
+    private void btn_SearchBarcode1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SearchBarcode1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_SearchBarcode1ActionPerformed
+
+    private void btn_clear1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clear1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_clear1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -442,9 +567,13 @@ public class CheckIn extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_Return;
+    private javax.swing.JTable InventoryTable;
     private javax.swing.JButton btn_SearchBarcode;
+    private javax.swing.JButton btn_SearchBarcode1;
+    private javax.swing.JButton btn_checking;
+    private javax.swing.JButton btn_checkout1;
     private javax.swing.JButton btn_clear;
+    private javax.swing.JButton btn_clear1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -452,14 +581,18 @@ public class CheckIn extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField txt_Account;
     private javax.swing.JTextField txt_Barcode;
     private javax.swing.JTextField txt_DueDate;
     private javax.swing.JTextField txt_InventoryNo;
     private javax.swing.JTextField txt_SearchInventory;
+    private javax.swing.JTextField txt_SearchInventory1;
     private javax.swing.JTextField txt_Title;
     // End of variables declaration//GEN-END:variables
 }
