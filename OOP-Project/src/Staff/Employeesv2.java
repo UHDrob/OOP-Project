@@ -101,7 +101,7 @@ public class Employeesv2 extends javax.swing.JFrame {
         }
         catch(Exception e)
         {
-            JOptionPane.showMessageDialog(null, "Error");
+            JOptionPane.showMessageDialog(null, "Array Error");
             
         }
                
@@ -154,7 +154,7 @@ public class Employeesv2 extends javax.swing.JFrame {
         }
         catch(FileNotFoundException e)
         {
-            JOptionPane.showMessageDialog(null, "Error");
+            JOptionPane.showMessageDialog(null, "Reading File Error");
             
         }
     }
