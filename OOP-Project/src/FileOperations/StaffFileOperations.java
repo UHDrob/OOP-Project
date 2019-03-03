@@ -13,31 +13,40 @@ import java.util.Scanner;
 
 /**
  * Created: Feb 17, 2019
- * Modified: Feb 24, 2019
+ * Modified: Mar 4, 2019
  * @author Roberto Gomez
  * @version 1
  */
 public class StaffFileOperations 
 {
-    // Feb 17, 2019 Roberto: instance variables
-    public String fileName = "staff.txt";
-
+    // Mar 3, 2019 Roberto: instance variables
+    public String fileName = "staff.txt"; // this file has all the data for Staff section
+    private static Scanner x;  // This array will containg the data from the text file
     
     // Feb 17, 2019 Roberto : operations or methods
     
     // Feb 18, 2019 Roberto : inputFileName ask user for filename and print out confirmation
         public void inputFileName()
         {
-            Scanner keyboard = new Scanner(System.in);
-                        
-
-            // Display input entered on the console
-            System.out.println("\nThe file name that you entered is: " + fileName);
+            // FOR TESTING ONLY: Display input entered on the console
+            // Scanner keyboard = new Scanner(System.in);
+            // System.out.println("\nThe file name that you entered is: " + fileName);
         }
     
         // Feb 18, 2019 Roberto : Read the data and display on the Console
         public void readFile()
         {
+            boolean found = false;
+            String employeeID;
+            String firstName;
+            String lastName;
+            String title;
+            String phoneNumber;
+            String userName;
+            String passWord;
+            
+            
+            
             Scanner fileIn = null;  // Initialize fileIn to empty
             try
             {
