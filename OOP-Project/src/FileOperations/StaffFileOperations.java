@@ -26,14 +26,11 @@ public class StaffFileOperations
     // Feb 17, 2019 Roberto : operations or methods
     
     // Feb 18, 2019 Roberto : inputFileName ask user for filename and print out confirmation
-        public void inputFileName()
+        public void inputFileName(String fileName)
         {
             Scanner keyboard = new Scanner(System.in);
                         
-                    // prompts should be clear and concise
-            System.out.println("Please enter the file name (Ex file.txt) :");
-            fileName = keyboard.next();
-            String junk = keyboard.nextLine(); // to get rid of '\n'
+
             // Display input entered on the console
             System.out.println("\nThe file name that you entered is: " + fileName);
         }

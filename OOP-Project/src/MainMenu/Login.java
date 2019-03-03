@@ -6,7 +6,22 @@ Description: This will serve to authenticate credentials from the user
              It will request user input and then search on the text file
              if found, then it will grant access to the program
 Dependencies: None
-Fields:       Username, password
+
+Variables:
+
+
+Programming Strategy:
+    Create a java frame to hold the user interface
+    Select code to run actionable items
+
+Modules:
+    Clear   Delete all the txt fields
+    Exit    Close the program
+    Login   Compare data entered to credentials in staff.txt
+    CloseMe Close the current wingow
+
+
+
  */
 
 /**
@@ -190,9 +205,11 @@ private JFrame frame;
         WindowEvent meClose = new WindowEvent (this, WindowEvent.WINDOW_CLOSED);
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(meClose);
     }
-    /**
-     * @param args the command line arguments
-     */
+    /**************************************************
+     *  THIS IS THE MAIL SECTION                      *
+     * @param args the command line arguments         *
+     ************************************************** 
+     */                                      
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -224,7 +241,7 @@ private JFrame frame;
         //</editor-fold>
         //</editor-fold>
 
-        /* Create and display the form Main Meny */
+        /* Create and display the form Main Menu */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Login().setVisible(true);
