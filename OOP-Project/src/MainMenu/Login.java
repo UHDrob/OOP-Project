@@ -206,7 +206,7 @@ private JFrame frame;
         Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(meClose);
     }
     /**************************************************
-     *  THIS IS THE MAIL SECTION                      *
+     *  THIS IS THE MAIN SECTION                      *
      * @param args the command line arguments         *
      ************************************************** 
      */                                      

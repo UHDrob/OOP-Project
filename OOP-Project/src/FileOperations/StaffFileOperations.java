@@ -20,13 +20,13 @@ import java.util.Scanner;
 public class StaffFileOperations 
 {
     // Feb 17, 2019 Roberto: instance variables
-    public String fileName;
+    public String fileName = "staff.txt";
 
     
     // Feb 17, 2019 Roberto : operations or methods
     
     // Feb 18, 2019 Roberto : inputFileName ask user for filename and print out confirmation
-        public void inputFileName(String fileName)
+        public void inputFileName()
         {
             Scanner keyboard = new Scanner(System.in);
                         
@@ -74,4 +74,7 @@ public class StaffFileOperations
                  // Close the file
             System.out.println("\nThe file is now closed.\n");
         }
-}
+
+
+    }
+

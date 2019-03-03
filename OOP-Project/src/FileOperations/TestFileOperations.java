@@ -15,7 +15,7 @@ public class TestFileOperations {
             StaffFileOperations fileNew ;  // declaration of the object of type FileOperations
             fileNew = new StaffFileOperations();   // Invoke Constructor FileOperations
         
-            fileNew.inputFileName("staff.txt");  // run method inputFileName and ask for the file name
+            fileNew.inputFileName();  // run method inputFileName and ask for the file name
             fileNew.readFile();   //  Open and read the file, then display on the screen.
         }
 
