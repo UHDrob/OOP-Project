@@ -39,7 +39,7 @@ public class Staff_Total extends javax.swing.JFrame {
      */
     public Staff_Total() {
         initComponents();
-        Show_Movies_In_JTable();
+        Show_Staff_In_JTable();
         Show_MoviesTotals_In_JTable();
     }
 
@@ -66,10 +66,10 @@ public class Staff_Total extends javax.swing.JFrame {
     // Check Input Fields
     public boolean checkInputs()
     {
-        if(        txt_movietitle.getText() == null
+        if(        txt_firstname.getText() == null
                 || txt_releasedate.getDate()== null
-                || txt_rating.getText() == null
-                || txt_category.getText() == null)
+                || txt_lastname.getText() == null
+                || txt_title.getText() == null)
 
         {
         return false;
@@ -168,7 +168,7 @@ public class Staff_Total extends javax.swing.JFrame {
         return moviestotalsList;                 
     }   
     //      2 - Populate The JTable    
-    public void Show_Movies_In_JTable()
+    public void Show_Staff_In_JTable()
     {
         ArrayList<Staff> list = getMoviesList();
         DefaultTableModel model = (DefaultTableModel)JTable_Movies.getModel();
@@ -208,23 +208,16 @@ public class Staff_Total extends javax.swing.JFrame {
     public void ShowItem(int index)
     {
             txt_employeeid.setText(Integer.toString(getMoviesList().get(index).getemployeeid()));
-            txt_movietitle.setText(getMoviesList().get(index).getmovietitle());
+            txt_firstname.setText(getMoviesList().get(index).getfirstname());
             
-        try {
-           Date addDate = null;
-            addDate = new SimpleDateFormat("yyyy-MM-dd").parse((String)getMoviesList().get(index).getreleasedate());
-            txt_releasedate.setDate(addDate);
- 
-        } catch (ParseException ex) {
-            Logger.getLogger(Staff_Total.class.getName()).log(Level.SEVERE, null, ex);
-        }
-            txt_rating.setText(getMoviesList().get(index).getrating());
-            txt_category.setText(getMoviesList().get(index).getcategory());
-            txt_runningtime.setText(getMoviesList().get(index).getrunningtime());
-            txt_director.setText(getMoviesList().get(index).getdirector());
-            txt_moviecast.setText(getMoviesList().get(index).getmoviecast());
+
+            txt_lastname.setText(getMoviesList().get(index).getrating());
+            txt_title.setText(getMoviesList().get(index).getcategory());
+            txt_phonenumber.setText(getMoviesList().get(index).getrunningtime());
+            txt_username.setText(getMoviesList().get(index).getdirector());
+            txt_password.setText(getMoviesList().get(index).getmoviecast());
             
-        lbl_image.setIcon(ResizeImage(null, getMoviesList().get(index).getImage()));
+
     }       
     
     /**
@@ -251,13 +244,13 @@ public class Staff_Total extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        txt_movietitle = new javax.swing.JTextField();
-        txt_rating = new javax.swing.JTextField();
-        txt_runningtime = new javax.swing.JTextField();
-        txt_category = new javax.swing.JTextField();
-        txt_moviecast = new javax.swing.JTextField();
+        txt_firstname = new javax.swing.JTextField();
+        txt_lastname = new javax.swing.JTextField();
+        txt_phonenumber = new javax.swing.JTextField();
+        txt_title = new javax.swing.JTextField();
+        txt_password = new javax.swing.JTextField();
         txt_employeeid = new javax.swing.JTextField();
-        txt_director = new javax.swing.JTextField();
+        txt_username = new javax.swing.JTextField();
         lbl_image = new javax.swing.JLabel();
         JScrollPanel = new javax.swing.JScrollPane();
         JTable_Movies = new javax.swing.JTable();
@@ -314,26 +307,26 @@ public class Staff_Total extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel9.setText("Poster:");
 
-        txt_movietitle.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        txt_movietitle.setPreferredSize(new java.awt.Dimension(160, 50));
+        txt_firstname.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txt_firstname.setPreferredSize(new java.awt.Dimension(160, 50));
 
-        txt_rating.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        txt_rating.setPreferredSize(new java.awt.Dimension(160, 50));
+        txt_lastname.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txt_lastname.setPreferredSize(new java.awt.Dimension(160, 50));
 
-        txt_runningtime.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        txt_runningtime.setPreferredSize(new java.awt.Dimension(160, 50));
+        txt_phonenumber.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txt_phonenumber.setPreferredSize(new java.awt.Dimension(160, 50));
 
-        txt_category.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        txt_category.setPreferredSize(new java.awt.Dimension(160, 50));
+        txt_title.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txt_title.setPreferredSize(new java.awt.Dimension(160, 50));
 
-        txt_moviecast.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        txt_moviecast.setPreferredSize(new java.awt.Dimension(160, 50));
+        txt_password.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txt_password.setPreferredSize(new java.awt.Dimension(160, 50));
 
         txt_employeeid.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         txt_employeeid.setPreferredSize(new java.awt.Dimension(160, 50));
 
-        txt_director.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        txt_director.setPreferredSize(new java.awt.Dimension(160, 50));
+        txt_username.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        txt_username.setPreferredSize(new java.awt.Dimension(160, 50));
 
         lbl_image.setBackground(new java.awt.Color(204, 255, 255));
         lbl_image.setOpaque(true);
@@ -495,7 +488,7 @@ public class Staff_Total extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txt_movietitle, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txt_firstname, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(135, 135, 135)
                                 .addComponent(jLabel11)
                                 .addGap(32, 32, 32)
@@ -506,9 +499,9 @@ public class Staff_Total extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txt_rating, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_category, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_runningtime, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txt_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_title, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txt_phonenumber, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(111, 111, 111))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(lbl_image, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -549,8 +542,8 @@ public class Staff_Total extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_moviecast, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_director, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(497, 497, 497)
                                 .addComponent(btn_insert)
@@ -581,7 +574,7 @@ public class Staff_Total extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(txt_movietitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_firstname, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel11)
                                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -597,23 +590,23 @@ public class Staff_Total extends javax.swing.JFrame {
                                 .addComponent(jLabel3)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_rating, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
                         .addGap(4, 4, 4)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(txt_category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(txt_runningtime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_phonenumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_director, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_moviecast, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -695,23 +688,23 @@ public class Staff_Total extends javax.swing.JFrame {
                         + "values(?,?,?,?,?,?,?,?)";
                     PreparedStatement ps = con.prepareStatement(sqlInsert);
                     
-                    ps.setString(1, txt_movietitle.getText());
+                    ps.setString(1, txt_firstname.getText());
                     
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     String addDate = dateFormat.format(txt_releasedate.getDate());
                     ps.setString(2, addDate);
                    
-                    ps.setString(3, txt_rating.getText());
-                    ps.setString(4, txt_runningtime.getText());
-                    ps.setString(5, txt_category.getText());
-                    ps.setString(6, txt_director.getText());
-                    ps.setString(7, txt_moviecast.getText());
+                    ps.setString(3, txt_lastname.getText());
+                    ps.setString(4, txt_phonenumber.getText());
+                    ps.setString(5, txt_title.getText());
+                    ps.setString(6, txt_username.getText());
+                    ps.setString(7, txt_password.getText());
                     
                     InputStream img = new FileInputStream(new File(ImgPath));
                     ps.setBlob (8, img);
                                     
                     ps.executeUpdate();
-                    Show_Movies_In_JTable();
+                    Show_Staff_In_JTable();
                     Show_MoviesTotals_In_JTable();
          
                     JOptionPane.showMessageDialog(null,"New Movie has been Created");
@@ -729,21 +722,20 @@ public class Staff_Total extends javax.swing.JFrame {
         }
         
         //ONLY FOR TESTING:
-            System.out.println("Movie ID =>" + txt_employeeid.getText());
-            System.out.println("Movie Title => " + txt_movietitle.getText());
-            System.out.println("Release Date => " + txt_releasedate.getDate());
-            System.out.println("Rating => " + txt_rating.getText());
-            System.out.println("Running Time => " + txt_runningtime.getText());
-            System.out.println("Category => " + txt_category.getText());
-            System.out.println("Director => " + txt_director.getText());
-            System.out.println("Movie Cast => " + txt_moviecast.getText());
-            System.out.println("Poster => " + ImgPath);
+            System.out.println("Employee ID =>" + txt_employeeid.getText());
+            System.out.println("First Name => " + txt_firstname.getText());
+
+            System.out.println("Last Name => " + txt_lastname.getText());
+            System.out.println("Phone Number => " + txt_phonenumber.getText());
+            System.out.println("Title => " + txt_title.getText());
+            System.out.println("Username => " + txt_username.getText());
+            System.out.println("Password => " + txt_password.getText());
+
         
     }//GEN-LAST:event_btn_insertActionPerformed
 
-// Button Update Data From JavaDB database    
+// Button Update Data   
 // 1 - Check if inputs are not null
-// if the imgPath is not null UPDATE also the image
 // else do not update the image
 // 2 - Update the data    
     private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
@@ -762,22 +754,22 @@ public class Staff_Total extends javax.swing.JFrame {
                                             + "WHERE movieid = ?";
                             ps = con.prepareStatement(sqlUpdate);
                             
-                            ps.setString(1, txt_movietitle.getText());
+                            ps.setString(1, txt_firstname.getText());
                             
                             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                             String addDate = dateFormat.format(txt_releasedate.getDate());
                             ps.setString(2, addDate);
                             
-                            ps.setString(3, txt_rating.getText());
-                            ps.setString(4, txt_runningtime.getText());
-                            ps.setString(5, txt_category.getText());
-                            ps.setString(6, txt_director.getText());
-                            ps.setString(7, txt_moviecast.getText());
+                            ps.setString(3, txt_lastname.getText());
+                            ps.setString(4, txt_phonenumber.getText());
+                            ps.setString(5, txt_title.getText());
+                            ps.setString(6, txt_username.getText());
+                            ps.setString(7, txt_password.getText());
                             
                             ps.setInt(8, Integer.parseInt(txt_employeeid.getText()));
                             
                             ps.executeUpdate();
-                            Show_Movies_In_JTable();
+                            Show_Staff_In_JTable();
                             
                             JOptionPane.showMessageDialog(null, "Movie has been Updated");
                             
@@ -797,22 +789,22 @@ public class Staff_Total extends javax.swing.JFrame {
                             
                             ps=con.prepareStatement(sqlUpdate);
                             
-                            ps.setString(1, txt_movietitle.getText());
+                            ps.setString(1, txt_firstname.getText());
                             
                             SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
                             String addDate = dateFormat.format(txt_releasedate.getDate());
                             ps.setString(2, addDate);
                            
-                            ps.setString(3, txt_rating.getText());
-                            ps.setString(4, txt_runningtime.getText());
-                            ps.setString(5, txt_category.getText());
-                            ps.setString(6, txt_director.getText());
-                            ps.setString(7, txt_moviecast.getText());
+                            ps.setString(3, txt_lastname.getText());
+                            ps.setString(4, txt_phonenumber.getText());
+                            ps.setString(5, txt_title.getText());
+                            ps.setString(6, txt_username.getText());
+                            ps.setString(7, txt_password.getText());
                             ps.setBlob(8, img);
                             
                             ps.setInt(9, Integer.parseInt(txt_employeeid.getText()));
                             ps.executeUpdate();
-                            Show_Movies_In_JTable();
+                            Show_Staff_In_JTable();
                             
                             JOptionPane.showMessageDialog(null,"Movie has been updated");
                             
@@ -840,8 +832,8 @@ public class Staff_Total extends javax.swing.JFrame {
                 int movieid = Integer.parseInt(txt_employeeid.getText());
                 ps.setInt(1, movieid);
                 ps.executeUpdate();
-                Show_Movies_In_JTable();
-                Show_MoviesTotals_In_JTable();
+                Show_Staff_In_JTable();
+                Show_StaffTotals_In_JTable();
                 
                 JOptionPane.showMessageDialog(null, "Product Deleted");
                 
@@ -894,18 +886,18 @@ public class Staff_Total extends javax.swing.JFrame {
 
     private void btn_newActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_newActionPerformed
         txt_employeeid.setText(null);
-        txt_movietitle.setText(null);
+        txt_firstname.setText(null);
         txt_releasedate.setDate(null);
-        txt_rating.setText(null);
-        txt_runningtime.setText(null);
-        txt_category.setText(null);
-        txt_director.setText(null);
-        txt_moviecast.setText(null);
+        txt_lastname.setText(null);
+        txt_phonenumber.setText(null);
+        txt_title.setText(null);
+        txt_username.setText(null);
+        txt_password.setText(null);
     }//GEN-LAST:event_btn_newActionPerformed
 
     private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
-        mv_staff.administrators Info = new mv_staff.administrators();
-        Info.setVisible(true);     
+        MainMenu.MenuFrame Info = new MainMenu.MenuFrame();
+        Info.setVisible(true);    
     }//GEN-LAST:event_btn_backActionPerformed
 
     /**
@@ -993,13 +985,13 @@ public class Staff_Total extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lbl_image;
-    private javax.swing.JTextField txt_category;
-    private javax.swing.JTextField txt_director;
     private javax.swing.JTextField txt_employeeid;
-    private javax.swing.JTextField txt_moviecast;
-    private javax.swing.JTextField txt_movietitle;
-    private javax.swing.JTextField txt_rating;
+    private javax.swing.JTextField txt_firstname;
+    private javax.swing.JTextField txt_lastname;
+    private javax.swing.JTextField txt_password;
+    private javax.swing.JTextField txt_phonenumber;
     private com.toedter.calendar.JDateChooser txt_releasedate;
-    private javax.swing.JTextField txt_runningtime;
+    private javax.swing.JTextField txt_title;
+    private javax.swing.JTextField txt_username;
     // End of variables declaration//GEN-END:variables
 }
