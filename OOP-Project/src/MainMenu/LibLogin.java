@@ -42,6 +42,7 @@ import javax.swing.JOptionPane;
 
 public class LibLogin extends javax.swing.JFrame {
 //staffarray = null;
+boolean found;
 
 private JFrame frame;
     /**
@@ -184,19 +185,21 @@ private JFrame frame;
       // this buttnon process the credentials
         String password = txt_password.getText();
         String username = txt_username.getText();
+        String credentials = username+password;
         
 // READ STAFF.TXT
             StaffFileOperations fileNew ;  // declaration of the object of type FileOperations
             fileNew = new StaffFileOperations();   // Invoke Constructor FileOperations
         
-            fileNew.inputFileName();  // run method inputFileName and ask for the file name
-            fileNew.readFile();   //  Open and read the file, then display on the screen.
+            //fileNew.inputFileName();  // run method inputFileName and ask for the file name
+            //fileNew.readFile();   //  Open and read the file, then display on the screen.
             
-            // Return array from file
+            // Return asearch
+           found = fileNew.searchLogin(credentials);
 
 // Feb 28, 2019 Roberto: Verify credentials
-            if (password.contains("one") && (username.contains("king")))  // THIS IS A TEST
-            // if (usernamearray.equals(txt_username && passwordarray.equals(txt_password)    
+           //if (password.contains("one") && (username.contains("king")))  // THIS IS A TEST
+            if (found)    
             {
                 txt_username.setText(null);
                 txt_password.setText(null);
