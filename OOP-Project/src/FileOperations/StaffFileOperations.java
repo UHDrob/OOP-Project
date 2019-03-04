@@ -153,7 +153,8 @@ public class StaffFileOperations
             x = new Scanner(new File(fileName));
             x.useDelimiter("[,\n]");
             
-            while(x.hasNext() && !isHere )
+           // while(x.hasNext() && !isHere )
+           while(x.hasNext())
             {
                 employeeIDAr = x.next();
                 firstNameAr = x.next();
@@ -168,31 +169,30 @@ public class StaffFileOperations
                 String test2 = uNameAr+pWordAr;
                 System.out.println("Array: " + test2);
                 System.out.println("credentials: " + searchterm);
-                int test = searchterm.compareTo(test2);
-                System.out.println("test: " + test);
+                System.out.println(searchterm.equals(test2));
+                System.out.println("test: " + test2);
+                boolean test = searchterm.equals(test2);
                 
-                //if((searchterm1.equals(uName)) && (searchterm2.equals(pWord)))
-                //if (test)
-                if(test==0)
-                {       
-                    isHere = true;
-                }
+                // Compare credentials
+                if(!test)     
+                        isHere = true;
                 System.out.println(isHere);   //FOR TEST ONLY
             }
             if (isHere)
-            {
-                JOptionPane.showMessageDialog(null,"Access Granted!");
-            }
+                {
+                 JOptionPane.showMessageDialog(null,"Access Granted!");
+                }
             else 
-            {
-                JOptionPane.showMessageDialog(null,"Access Denied!");
-            }
-        }
+                {
+                 JOptionPane.showMessageDialog(null,"Access Denied!");
+                }
+         }
         catch(Exception e)
         {
             JOptionPane.showMessageDialog(null, "Search Error");
             
         }
+        
     return(isHere);
 
     }
