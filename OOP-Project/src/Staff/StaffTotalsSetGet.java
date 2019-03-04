@@ -28,6 +28,8 @@ public class StaffTotalsSetGet {
 
     }
     
+    
+    
     public int gettotalcount()
     {
         return totalCount;

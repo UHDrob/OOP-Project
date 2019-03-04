@@ -5,7 +5,6 @@
  */
 package Staff;
 
-import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -15,16 +14,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -35,12 +29,12 @@ import javax.swing.table.DefaultTableModel;
 public class Staff_Total extends javax.swing.JFrame {
 
     /**
-     * Creates new form Movie_Window
+     * Creates new form Staff_Window
      */
     public Staff_Total() {
         initComponents();
         Show_Staff_In_JTable();
-        Show_MoviesTotals_In_JTable();
+        Show_StaffTotals_In_JTable();
     }
 
     String ImgPath = null;
@@ -86,26 +80,7 @@ public class Staff_Total extends javax.swing.JFrame {
         }        
     }
       
-    // Resize the Image to fit into JLabel
-    public ImageIcon ResizeImage(String imagePath, byte[] pic)
-    {
-        ImageIcon myImage = null;
-        
-        if(imagePath !=null)
-        {
-            myImage = new ImageIcon(imagePath);
-        }
-        else
-        {
-            myImage = new ImageIcon(pic);
-        }
-        
-        Image img = myImage.getImage();
-        Image img2 = img.getScaledInstance(lbl_image.getWidth(), lbl_image.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon image = new ImageIcon(img2);
-        
-        return image;        
-    }
+
      
     // Display Data In JTable: 
     //      1 - Fill ArrayList With The Data
@@ -125,23 +100,22 @@ public class Staff_Total extends javax.swing.JFrame {
             
             while(rs.next())
             {
-                staff = new Staff (rs.getInt("employeeid"),rs.getString("movietitle"),
-                        rs.getString("releasedate"),rs.getString("rating"),
-                        rs.getString("category"), rs.getString("runningtime"),
-                        rs.getString("director"), rs.getString("moviecast"),
-                        rs.getBytes("poster"));
-                moviesList.add(staff);
+  //              staff = new Staff (rs.getInt("employeeid"),rs.getString("movietitle"),
+   //                     rs.getString("releasedate"),rs.getString("rating"),
+  //                      rs.getString("category"), rs.getString("runningtime"),
+  //                      rs.getString("director"), rs.getString("moviecast"));
+                staffList.add(staff);
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(Staff_Total.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return moviesList;                 
+        return staffList;                 
     }   
-        public ArrayList<StaffTotals> getMoviesTotalsList()
+        public ArrayList<StaffTotals> getStaffTotalsList()
     {
-            ArrayList<StaffTotals> moviestotalsList  = new ArrayList<StaffTotals>();
+            ArrayList<StaffTotals> stafftotalsList  = new ArrayList<StaffTotals>();
             Connection con = getConnection();
             String sql = "SELECT COUNT (movieid) As Total_Movies\n" +
                          "FROM cinema.mv_movies";
@@ -158,14 +132,14 @@ public class Staff_Total extends javax.swing.JFrame {
             {
                 stafftotals = new StaffTotals(rs.getInt("Total_Employees"));
  //               JOptionPane.message()
-                moviestotalsList.add(stafftotals);
+                stafftotalsList.add(stafftotals);
             }
             
         } catch (SQLException ex) {
             Logger.getLogger(Staff_Total.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        return moviestotalsList;                 
+        return stafftotalsList;                 
     }   
     //      2 - Populate The JTable    
     public void Show_Staff_In_JTable()
@@ -185,10 +159,10 @@ public class Staff_Total extends javax.swing.JFrame {
             model.addRow(row);
         }    
     }
-        public void Show_MoviesTotals_In_JTable()
+        public void Show_StaffTotals_In_JTable()
     {
-        ArrayList<StaffTotals> list = getMoviesTotalsList();
-        DefaultTableModel model2 = (DefaultTableModel)JTable_MoviesTotals.getModel();
+        ArrayList<StaffTotals> list = getStaffTotalsList();
+        DefaultTableModel model2 = (DefaultTableModel)JTable_StaffTotals.getModel();
         // clear jtable content
         model2.setRowCount(0);
         Object[] row = new Object[1];
@@ -243,7 +217,6 @@ public class Staff_Total extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         txt_firstname = new javax.swing.JTextField();
         txt_lastname = new javax.swing.JTextField();
         txt_phonenumber = new javax.swing.JTextField();
@@ -251,10 +224,8 @@ public class Staff_Total extends javax.swing.JFrame {
         txt_password = new javax.swing.JTextField();
         txt_employeeid = new javax.swing.JTextField();
         txt_username = new javax.swing.JTextField();
-        lbl_image = new javax.swing.JLabel();
         JScrollPanel = new javax.swing.JScrollPane();
         JTable_Movies = new javax.swing.JTable();
-        Btn_Choose_Image = new javax.swing.JButton();
         btn_insert = new javax.swing.JButton();
         btn_update = new javax.swing.JButton();
         btn_delete = new javax.swing.JButton();
@@ -267,7 +238,7 @@ public class Staff_Total extends javax.swing.JFrame {
         btn_back = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        JTable_MoviesTotals = new javax.swing.JTable();
+        JTable_StaffTotals = new javax.swing.JTable();
         jLabel11 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -304,9 +275,6 @@ public class Staff_Total extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel8.setText("Password:");
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel9.setText("Poster:");
-
         txt_firstname.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         txt_firstname.setPreferredSize(new java.awt.Dimension(160, 50));
 
@@ -328,9 +296,6 @@ public class Staff_Total extends javax.swing.JFrame {
         txt_username.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         txt_username.setPreferredSize(new java.awt.Dimension(160, 50));
 
-        lbl_image.setBackground(new java.awt.Color(204, 255, 255));
-        lbl_image.setOpaque(true);
-
         JTable_Movies.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -349,14 +314,6 @@ public class Staff_Total extends javax.swing.JFrame {
         if (JTable_Movies.getColumnModel().getColumnCount() > 0) {
             JTable_Movies.getColumnModel().getColumn(1).setPreferredWidth(200);
         }
-
-        Btn_Choose_Image.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        Btn_Choose_Image.setText("Choose Image");
-        Btn_Choose_Image.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Btn_Choose_ImageActionPerformed(evt);
-            }
-        });
 
         btn_insert.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_insert.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/add.png"))); // NOI18N
@@ -441,8 +398,8 @@ public class Staff_Total extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
         jLabel10.setText("CHECK IN - OUT");
 
-        JTable_MoviesTotals.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        JTable_MoviesTotals.setModel(new javax.swing.table.DefaultTableModel(
+        JTable_StaffTotals.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        JTable_StaffTotals.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null}
             },
@@ -450,7 +407,7 @@ public class Staff_Total extends javax.swing.JFrame {
                 "TOTAL EMPLOYEES"
             }
         ));
-        jScrollPane1.setViewportView(JTable_MoviesTotals);
+        jScrollPane1.setViewportView(JTable_StaffTotals);
 
         jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("ENTER EMPLOYEE ID: ");
@@ -470,22 +427,18 @@ public class Staff_Total extends javax.swing.JFrame {
                                 .addGap(26, 26, 26))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addGap(29, 29, 29)
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jLabel2)
-                                                .addComponent(jLabel1)
-                                                .addComponent(jLabel3)))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                            .addContainerGap()
-                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(44, 44, 44)
-                                        .addComponent(Btn_Choose_Image)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                        .addGap(29, 29, 29)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel3)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                .addGap(15, 15, 15)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txt_firstname, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -496,16 +449,11 @@ public class Staff_Total extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txt_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_title, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txt_phonenumber, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(111, 111, 111))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(lbl_image, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(115, 115, 115)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_title, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_phonenumber, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(111, 111, 111)
                                 .addComponent(JScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 895, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -536,8 +484,7 @@ public class Staff_Total extends javax.swing.JFrame {
                         .addGap(35, 35, 35)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9))
+                            .addComponent(jLabel8))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
@@ -607,16 +554,7 @@ public class Staff_Total extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(88, 88, 88)
-                                .addComponent(jLabel9)
-                                .addGap(55, 55, 55)
-                                .addComponent(Btn_Choose_Image))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbl_image, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel8)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -653,28 +591,6 @@ public class Staff_Total extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-// Button Browse Image From Your Computer    
-    private void Btn_Choose_ImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Choose_ImageActionPerformed
-        
-        JFileChooser file = new JFileChooser();
-        file.setCurrentDirectory(new File(System.getProperty("user.home")));
-        
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.images", "jpg", "png");
-        file.addChoosableFileFilter(filter);
-        int result = file.showSaveDialog(null);
-        if(result == JFileChooser.APPROVE_OPTION)
-        {
-            File selectedFile = file.getSelectedFile();
-            String path = selectedFile.getAbsolutePath();
-            lbl_image.setIcon(ResizeImage(path, null)); 
-            ImgPath = path;
-        }
-        else
-        {
-            System.out.println("No File has been Selected");
-        }
-    }//GEN-LAST:event_Btn_Choose_ImageActionPerformed
-
 // Button Insert Data Into JavaDB Database
 // 1 - Check If the imgPath is Not NUll and the inouts are not empty
 // 2- Insert the Data        
@@ -705,7 +621,7 @@ public class Staff_Total extends javax.swing.JFrame {
                                     
                     ps.executeUpdate();
                     Show_Staff_In_JTable();
-                    Show_MoviesTotals_In_JTable();
+                    Show_StaffTotals_In_JTable();
          
                     JOptionPane.showMessageDialog(null,"New Movie has been Created");
                     
@@ -755,11 +671,6 @@ public class Staff_Total extends javax.swing.JFrame {
                             ps = con.prepareStatement(sqlUpdate);
                             
                             ps.setString(1, txt_firstname.getText());
-                            
-                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                            String addDate = dateFormat.format(txt_releasedate.getDate());
-                            ps.setString(2, addDate);
-                            
                             ps.setString(3, txt_lastname.getText());
                             ps.setString(4, txt_phonenumber.getText());
                             ps.setString(5, txt_title.getText());
@@ -771,7 +682,7 @@ public class Staff_Total extends javax.swing.JFrame {
                             ps.executeUpdate();
                             Show_Staff_In_JTable();
                             
-                            JOptionPane.showMessageDialog(null, "Movie has been Updated");
+                            JOptionPane.showMessageDialog(null, "Employee has been Updated");
                             
                         } catch (SQLException ex) {
                             Logger.getLogger(Staff_Total.class.getName()).log(Level.SEVERE, null, ex);
@@ -806,7 +717,7 @@ public class Staff_Total extends javax.swing.JFrame {
                             ps.executeUpdate();
                             Show_Staff_In_JTable();
                             
-                            JOptionPane.showMessageDialog(null,"Movie has been updated");
+                            JOptionPane.showMessageDialog(null,"Employee has been updated");
                             
   
                         } catch (Exception ex) {
@@ -951,10 +862,9 @@ public class Staff_Total extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Btn_Choose_Image;
     private javax.swing.JScrollPane JScrollPanel;
     private javax.swing.JTable JTable_Movies;
-    private javax.swing.JTable JTable_MoviesTotals;
+    private javax.swing.JTable JTable_StaffTotals;
     private javax.swing.JButton btn_back;
     private javax.swing.JButton btn_delete;
     private javax.swing.JButton btn_first;
@@ -979,12 +889,10 @@ public class Staff_Total extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JLabel lbl_image;
     private javax.swing.JTextField txt_employeeid;
     private javax.swing.JTextField txt_firstname;
     private javax.swing.JTextField txt_lastname;

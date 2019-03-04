@@ -12,27 +12,21 @@ public class Staff {
     private int employeeID;
     private String firstName;
     private String lastName;
-    private String employeeTitle;
+    private String title;
     private String phoneNumber;
-
-    private double salary;
     private String username;
     private String password;
-    private byte[] staffPhoto;
+
             
     public Staff(int pemployeeid, int plocationidFK, String pfirstname, String plastname, String pemployeetitle, 
-            String pphonenumber,  
-            int psalary, String pusername, String ppassword, byte[] pstaffphoto){
+            String pphonenumber,  String pusername, String ppassword){
         this.employeeID = pemployeeid;
         this.firstName = pfirstname;
         this.lastName = plastname;
-        this.employeeTitle = pemployeetitle;
+        this.title = pemployeetitle;
         this.phoneNumber = pphonenumber;
-
-        this.salary = psalary;
         this.username = pusername;
         this.password = ppassword;
-        this.staffPhoto = pstaffphoto;
     }
     
     public int getemployeeid()
@@ -50,21 +44,14 @@ public class Staff {
         return lastName;
     }
     
-    public String getemployeetitle()
+    public String gettitle()
     {
-        return employeeTitle;
+        return title;
     }
     
     public String getphonenumber()
     {
         return phoneNumber;
-    }
-    
-
-        
-    public double getsalary()
-    {
-        return salary;
     }
     
     public String getusername()
@@ -76,9 +63,5 @@ public class Staff {
     {
         return password;
     }
-    
-    public byte[] getstaffphoto()
-    {
-        return staffPhoto;
-    }
+
 }
