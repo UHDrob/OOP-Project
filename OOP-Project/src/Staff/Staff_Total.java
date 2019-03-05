@@ -113,9 +113,9 @@ public class Staff_Total extends javax.swing.JFrame {
         
         return staffList;                 
     }   
-        public ArrayList<StaffTotals> getStaffTotalsList()
+        public ArrayList<Staff> getStaffTotalsList()
     {
-            ArrayList<StaffTotals> stafftotalsList  = new ArrayList<StaffTotals>();
+            ArrayList<Staff> stafftotalsList  = new ArrayList<Staff>();
             Connection con = getConnection();
             String sql = "SELECT COUNT (movieid) As Total_Movies\n" +
                          "FROM cinema.mv_movies";
@@ -126,11 +126,11 @@ public class Staff_Total extends javax.swing.JFrame {
         try {          
             st = con.createStatement();
             rs = st.executeQuery(sql);
-            StaffTotals stafftotals;
+            Staff stafftotals;
             
             while(rs.next())
             {
-                stafftotals = new StaffTotals(rs.getInt("Total_Employees"));
+                stafftotals = new Staff(rs.getInt("Total_Employees"));
  //               JOptionPane.message()
                 stafftotalsList.add(stafftotals);
             }
