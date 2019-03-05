@@ -7,9 +7,13 @@
  */
 package FileOperations;
 
-//import Staff.Employeesv2;
+import Staff.Staff_Total;
+import FileOperations.User;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
@@ -196,6 +200,105 @@ public class StaffFileOperations
     return(isHere);
 
     }
+   // Feb 19, 2019 Roberto: This section search for a Record in the file by employee ID 
+    public static void searchRecord (String searchterm, String filepath)
+    {
+        boolean found = false;
+        String employeeID = ""; 
+        String firstName = ""; 
+        String lastName = "";
+        String title ="";
+        String phoneNumber = "";
+        
+        try
+        {
+            x = new Scanner(new File(filepath));
+            x.useDelimiter("[,\n]");
+            
+            while(x.hasNext() && !found )
+            {
+                employeeID = x.next();
+                firstName = x.next();
+                lastName = x.next();
+                title = x.next();                
+                phoneNumber = x.next();
 
+                
+                if(employeeID.equals(searchterm))
+                {
+                    found = true;
+                }
+            }
+            if (found)
+            {
+                JOptionPane.showMessageDialog(null, "ID: " + employeeID 
+                        + "\nFirst Name: " + firstName 
+                        + "\nLast Name: " + lastName 
+                        + "\nTitle: " + title 
+                        + "\nPhone Number: " + phoneNumber);
+            }
+            else 
+            {
+                JOptionPane.showMessageDialog(null,"Record NOT found");
+            }
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Error");
+            
+        }
+    }
+    
+    
+        // Feb 19,2019 Roberto: This section will save the new record in the file
+        public void saveRecord(String IDnum, String FirstName, String LastName, String Title, String PhoneNumber, String UserName, String PassWord)
+    {
+        try
+        {
+            FileWriter fw = new FileWriter(fileName, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            
+            pw.println(IDnum+"," + FirstName + "," + LastName + "," + Title + "," + PhoneNumber);
+            pw.flush();
+            pw.close();
+            
+            JOptionPane.showMessageDialog(null, "Record Saved");
+        }
+        catch(Exception E)
+        {
+            JOptionPane.showMessageDialog(null, "Record NOT Saved");
+        }
+    }
+    
+     private void addAction ()
+     {
+                 // Feb 19, 2019 Roberto: This seciton will add the new record to the text file
+        if(checkInputs() )   // first, check all the fields
+        {
+            String ID = txt_employeeID.getText();
+            String firstname = txt_FirstName.getText();
+            String lastname = txt_LastName.getText();
+            String position = txt_Title.getText();
+            String phonenumber = txt_PhoneNumber.getText();
+            
+            saveRecord(ID, firstname, lastname, position, phonenumber, filepath);                                 
+                   // Show_Employee_In_JTable();
+            JOptionPane.showMessageDialog(null,"New Employee has been Created");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "One or More Fields Are Empty");
+
+        }
+
+  
+       // addRowToJTable();
+     }
+  
+        
+        
+        
+        
     }
 

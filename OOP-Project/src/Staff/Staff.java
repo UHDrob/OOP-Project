@@ -9,7 +9,7 @@ package Staff;
  */
 public class Staff {
     
-    private int employeeID;
+    private String employeeID;
     private String firstName;
     private String lastName;
     private String title;
@@ -18,7 +18,7 @@ public class Staff {
     private String password;
 
             
-    public Staff(int pemployeeid, int plocationidFK, String pfirstname, String plastname, String pemployeetitle, 
+    public Staff(String pemployeeid,  String pfirstname, String plastname, String pemployeetitle, 
             String pphonenumber,  String pusername, String ppassword){
         this.employeeID = pemployeeid;
         this.firstName = pfirstname;
@@ -29,7 +29,7 @@ public class Staff {
         this.password = ppassword;
     }
     
-    public int getemployeeid()
+    public String getemployeeid()
     {
         return employeeID;
     }

@@ -5,15 +5,14 @@
  */
 package Staff;
 
+
+import static Staff.Employeesv2.saveRecord;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -34,44 +33,31 @@ public class Staff_Total extends javax.swing.JFrame {
     public Staff_Total() {
         initComponents();
         Show_Staff_In_JTable();
-        Show_StaffTotals_In_JTable();
+
     }
 
-    String ImgPath = null;
+
     int pos = 0;
     
-  // Connect to JavaDB Database  
-    public Connection getConnection()
-    {
-        Connection con = null;
-        try {
-            String urlDB = "jdbc:derby://localhost:1527/cinema";
-            String usernameDB = "cinema";
-            String passwordDB = "cinemalogin";
-            //con = DriverManager.getConnection("jdbc:derby://localhost:1527/cinema","cinema","cinemalogin");
-            con = DriverManager.getConnection(urlDB, usernameDB, passwordDB);
-            return con;
-        } catch (SQLException ex) {
-            Logger.getLogger(Staff_Total.class.getName()).log(Level.SEVERE, null, ex);
-            return null;                       
-        }                           
-    }
+  // Open the staff.txt  
+
      
     // Check Input Fields
     public boolean checkInputs()
     {
-        if(        txt_firstname.getText() == null
-                || txt_releasedate.getDate()== null
+        if(        txt_employeeid.getText() == null
+                || txt_firstname.getText() == null
                 || txt_lastname.getText() == null
-                || txt_title.getText() == null)
-
+                || txt_title.getText() == null
+                || txt_phonenumber.getText() == null
+                || txt_username.getText() == null
+                || txt_password.getText() == null)
         {
         return false;
         }
         else
         {
-            try{
-                //Float.parseFloat(txt_.getText());                
+            try{         
                 return true;
             }catch(Exception ex)
             {
@@ -82,69 +68,10 @@ public class Staff_Total extends javax.swing.JFrame {
       
 
      
-    // Display Data In JTable: 
-    //      1 - Fill ArrayList With The Data
-    public ArrayList<Staff> getMoviesList()
-    {
-            ArrayList<Staff> moviesList  = new ArrayList<Staff>();
-            Connection con = getConnection();
-            String sql = "SELECT * FROM mv_movies ORDER by movietitle";
-            
-            Statement st;
-            ResultSet rs;
-            
-        try {          
-            st = con.createStatement();
-            rs = st.executeQuery(sql);
-            Staff staff;
-            
-            while(rs.next())
-            {
-  //              staff = new Staff (rs.getInt("employeeid"),rs.getString("movietitle"),
-   //                     rs.getString("releasedate"),rs.getString("rating"),
-  //                      rs.getString("category"), rs.getString("runningtime"),
-  //                      rs.getString("director"), rs.getString("moviecast"));
-                staffList.add(staff);
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Staff_Total.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return staffList;                 
-    }   
-        public ArrayList<Staff> getStaffTotalsList()
-    {
-            ArrayList<Staff> stafftotalsList  = new ArrayList<Staff>();
-            Connection con = getConnection();
-            String sql = "SELECT COUNT (movieid) As Total_Movies\n" +
-                         "FROM cinema.mv_movies";
-            
-            Statement st;
-            ResultSet rs;
-            
-        try {          
-            st = con.createStatement();
-            rs = st.executeQuery(sql);
-            Staff stafftotals;
-            
-            while(rs.next())
-            {
-                stafftotals = new Staff(rs.getInt("Total_Employees"));
- //               JOptionPane.message()
-                stafftotalsList.add(stafftotals);
-            }
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(Staff_Total.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return stafftotalsList;                 
-    }   
-    //      2 - Populate The JTable    
+   //      2 - Populate The JTable    
     public void Show_Staff_In_JTable()
     {
-        ArrayList<Staff> list = getMoviesList();
+        ArrayList<Staff> list = getStaffList();
         DefaultTableModel model = (DefaultTableModel)JTable_Movies.getModel();
         // clear jtable content
         model.setRowCount(0);
@@ -159,37 +86,20 @@ public class Staff_Total extends javax.swing.JFrame {
             model.addRow(row);
         }    
     }
-        public void Show_StaffTotals_In_JTable()
-    {
-        ArrayList<StaffTotals> list = getStaffTotalsList();
-        DefaultTableModel model2 = (DefaultTableModel)JTable_StaffTotals.getModel();
-        // clear jtable content
-        model2.setRowCount(0);
-        Object[] row = new Object[1];
-        for(int i = 0; i < list.size(); i++)
-        {
-            row[0] = list.get(i).gettotalcount();
- //           row[1] = list.get(i).getmovietitle();
- //           row[2] = list.get(i).getreleasedate();
- //           row[3] = list.get(i).getrating();
-            
-            model2.addRow(row);
-        }    
-    }
-    
+
     
     // Show Data In Inputs
     public void ShowItem(int index)
     {
-            txt_employeeid.setText(Integer.toString(getMoviesList().get(index).getemployeeid()));
-            txt_firstname.setText(getMoviesList().get(index).getfirstname());
+      //      txt_employeeid.setText(Integer.toString(getMoviesList().get(index).getemployeeid()));
+      //      txt_firstname.setText(getMoviesList().get(index).getfirstname());
             
 
-            txt_lastname.setText(getMoviesList().get(index).getrating());
-            txt_title.setText(getMoviesList().get(index).getcategory());
-            txt_phonenumber.setText(getMoviesList().get(index).getrunningtime());
-            txt_username.setText(getMoviesList().get(index).getdirector());
-            txt_password.setText(getMoviesList().get(index).getmoviecast());
+      //      txt_lastname.setText(getMoviesList().get(index).getrating());
+      //      txt_title.setText(getMoviesList().get(index).getcategory());
+      //      txt_phonenumber.setText(getMoviesList().get(index).getrunningtime());
+      //      txt_username.setText(getMoviesList().get(index).getdirector());
+      //      txt_password.setText(getMoviesList().get(index).getmoviecast());
             
 
     }       
@@ -211,7 +121,6 @@ public class Staff_Total extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -229,7 +138,6 @@ public class Staff_Total extends javax.swing.JFrame {
         btn_insert = new javax.swing.JButton();
         btn_update = new javax.swing.JButton();
         btn_delete = new javax.swing.JButton();
-        txt_releasedate = new com.toedter.calendar.JDateChooser();
         btn_first = new javax.swing.JButton();
         btn_next = new javax.swing.JButton();
         btn_previous = new javax.swing.JButton();
@@ -256,9 +164,6 @@ public class Staff_Total extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setText("First Name");
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel3.setText("Release Date:");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel4.setText("Last Name:");
@@ -345,8 +250,6 @@ public class Staff_Total extends javax.swing.JFrame {
             }
         });
 
-        txt_releasedate.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-
         btn_first.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         btn_first.setText("First");
         btn_first.addActionListener(new java.awt.event.ActionListener() {
@@ -428,11 +331,10 @@ public class Staff_Total extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(29, 29, 29)
+                                        .addGap(33, 33, 33)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(jLabel2)
-                                            .addComponent(jLabel1)
-                                            .addComponent(jLabel3)))
+                                            .addComponent(jLabel1)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addContainerGap()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -441,8 +343,8 @@ public class Staff_Total extends javax.swing.JFrame {
                                 .addGap(15, 15, 15)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txt_firstname, javax.swing.GroupLayout.PREFERRED_SIZE, 615, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(135, 135, 135)
+                                .addComponent(txt_firstname, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(489, 489, 489)
                                 .addComponent(jLabel11)
                                 .addGap(32, 32, 32)
                                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -465,8 +367,7 @@ public class Staff_Total extends javax.swing.JFrame {
                                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(79, 79, 79))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txt_releasedate, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(251, 251, 251)
+                                        .addGap(508, 508, 508)
                                         .addComponent(btn_first)
                                         .addGap(71, 71, 71)
                                         .addComponent(btn_next)))
@@ -529,13 +430,7 @@ public class Staff_Total extends javax.swing.JFrame {
                     .addComponent(btn_back))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_releasedate, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(jLabel3)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(66, 66, 66)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txt_lastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
@@ -595,47 +490,7 @@ public class Staff_Total extends javax.swing.JFrame {
 // 1 - Check If the imgPath is Not NUll and the inouts are not empty
 // 2- Insert the Data        
     private void btn_insertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_insertActionPerformed
-        if(checkInputs()  &&  ImgPath !=null)
-        {
-            try{
-                    Connection con = getConnection();      
-                    String sqlInsert = "INSERT INTO mv_movies" 
-                            + "(movietitle, releasedate, rating, category, runningtime, director, moviecast, poster)" 
-                        + "values(?,?,?,?,?,?,?,?)";
-                    PreparedStatement ps = con.prepareStatement(sqlInsert);
-                    
-                    ps.setString(1, txt_firstname.getText());
-                    
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    String addDate = dateFormat.format(txt_releasedate.getDate());
-                    ps.setString(2, addDate);
-                   
-                    ps.setString(3, txt_lastname.getText());
-                    ps.setString(4, txt_phonenumber.getText());
-                    ps.setString(5, txt_title.getText());
-                    ps.setString(6, txt_username.getText());
-                    ps.setString(7, txt_password.getText());
-                    
-                    InputStream img = new FileInputStream(new File(ImgPath));
-                    ps.setBlob (8, img);
-                                    
-                    ps.executeUpdate();
-                    Show_Staff_In_JTable();
-                    Show_StaffTotals_In_JTable();
-         
-                    JOptionPane.showMessageDialog(null,"New Movie has been Created");
-                    
-                 }
-                catch(Exception ex)  
-                {
-                    JOptionPane.showMessageDialog(null, ex.getMessage());
-                } 
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "One or More Fields Are Empty");
-            //Logger.getLogger(Movie_Window.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
         
         //ONLY FOR TESTING:
             System.out.println("Employee ID =>" + txt_employeeid.getText());
@@ -655,79 +510,27 @@ public class Staff_Total extends javax.swing.JFrame {
 // else do not update the image
 // 2 - Update the data    
     private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
-      
-        if(checkInputs()  &&  txt_employeeid.getText()!=null)
+        // Feb 19, 2019 Roberto: This seciton will add the new record to the text file
+        if(checkInputs() )   // first, check all the fields
         {
-            String sqlUpdate = null;
-            PreparedStatement ps = null;
-            Connection con = getConnection();
+            String ID = txt_employeeid.getText();
+            String firstname = txt_firstname.getText();
+            String lastname = txt_lastname.getText();
+            String position = txt_title.getText();
+            String phonenumber = txt_phonenumber.getText();
             
-            // Update without image
-            if(ImgPath == null)
-                    {
-                        try {
-                            sqlUpdate = "UPDATE mv_movies SET movietitle = ?, releasedate = ?, rating = ?, runningtime = ?, category = ?, director =?, moviecast = ?"
-                                            + "WHERE movieid = ?";
-                            ps = con.prepareStatement(sqlUpdate);
-                            
-                            ps.setString(1, txt_firstname.getText());
-                            ps.setString(3, txt_lastname.getText());
-                            ps.setString(4, txt_phonenumber.getText());
-                            ps.setString(5, txt_title.getText());
-                            ps.setString(6, txt_username.getText());
-                            ps.setString(7, txt_password.getText());
-                            
-                            ps.setInt(8, Integer.parseInt(txt_employeeid.getText()));
-                            
-                            ps.executeUpdate();
-                            Show_Staff_In_JTable();
-                            
-                            JOptionPane.showMessageDialog(null, "Employee has been Updated");
-                            
-                        } catch (SQLException ex) {
-                            Logger.getLogger(Staff_Total.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        
-                    }
-            
-                    // Update with Image
-            else{
-                try {
-                    InputStream img = new FileInputStream(new File(ImgPath));
-                    
-                            sqlUpdate = "UPDATE mv_movies SET movietitle = ?, releasedate = ?, rating = ?, runningtime = ?, category = ?, director =?, moviecast = ?"
-                                            + ", poster = ? WHERE movieid = ?";
-                            
-                            ps=con.prepareStatement(sqlUpdate);
-                            
-                            ps.setString(1, txt_firstname.getText());
-                            
-                            SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd");
-                            String addDate = dateFormat.format(txt_releasedate.getDate());
-                            ps.setString(2, addDate);
-                           
-                            ps.setString(3, txt_lastname.getText());
-                            ps.setString(4, txt_phonenumber.getText());
-                            ps.setString(5, txt_title.getText());
-                            ps.setString(6, txt_username.getText());
-                            ps.setString(7, txt_password.getText());
-                            ps.setBlob(8, img);
-                            
-                            ps.setInt(9, Integer.parseInt(txt_employeeid.getText()));
-                            ps.executeUpdate();
-                            Show_Staff_In_JTable();
-                            
-                            JOptionPane.showMessageDialog(null,"Employee has been updated");
-                            
-  
-                        } catch (Exception ex) {
-                                JOptionPane.showMessageDialog(null,ex.getMessage());
-                                Logger.getLogger(Staff_Total.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                }
-            } else {
-                      JOptionPane.showMessageDialog(null, "One or More Fields Are Empty or Wrong");
+            saveRecord(ID, firstname, lastname, title, phonenumber, username, password);                                 
+                   // Show_Employee_In_JTable();
+            JOptionPane.showMessageDialog(null,"New Employee has been Created");
         }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "One or More Fields Are Empty");
+
+        }
+
+  
+       // addRowToJTable();
     }//GEN-LAST:event_btn_updateActionPerformed
 
 // Button Delete the data from JavaDB database    
@@ -852,6 +655,22 @@ public class Staff_Total extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -883,7 +702,6 @@ public class Staff_Total extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -898,7 +716,6 @@ public class Staff_Total extends javax.swing.JFrame {
     private javax.swing.JTextField txt_lastname;
     private javax.swing.JTextField txt_password;
     private javax.swing.JTextField txt_phonenumber;
-    private com.toedter.calendar.JDateChooser txt_releasedate;
     private javax.swing.JTextField txt_title;
     private javax.swing.JTextField txt_username;
     // End of variables declaration//GEN-END:variables
