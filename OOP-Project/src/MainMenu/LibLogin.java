@@ -1,5 +1,5 @@
 /*
- * Login Window
+ * LibLogin Window
  *
 Description: This will serve to authenticate credentials from the user
              comparing username and password with the ones on staff.txt
@@ -8,7 +8,8 @@ Description: This will serve to authenticate credentials from the user
 Dependencies: None
 
 Variables:
-
+txt_username: to hold username
+txt_password: to hold password
 
 Programming Strategy:
     Create a java frame to hold the user interface
@@ -32,19 +33,22 @@ Modules:
  */
 package MainMenu;
 
+import FileOperations.StaffFileOperations;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
-//import com.sun.jndi.ldap.Connection;
+import javax.swing.JOptionPane;
 
-public class Login extends javax.swing.JFrame {
 
+public class LibLogin extends javax.swing.JFrame {
+//staffarray = null;
+boolean found;
 
 private JFrame frame;
     /**
      * Creates new form Login
      */
-    public Login() {
+    public LibLogin() {
         initComponents();
     }
 
@@ -120,21 +124,22 @@ private JFrame frame;
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(52, 52, 52)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btn_login)
-                        .addGap(23, 23, 23))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(btn_login)
+                            .addGap(17, 17, 17))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
+                        .addGap(11, 11, 11)
                         .addComponent(btn_reset)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addComponent(btn_exit)
                         .addGap(117, 117, 117))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
+                        .addGap(23, 23, 23)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txt_username, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                             .addComponent(txt_password))
@@ -161,37 +166,46 @@ private JFrame frame;
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(251, 172, -1, -1));
 
-        jLabel1.setFont(new java.awt.Font("Serif", 1, 48)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 48)); // NOI18N
         jLabel1.setText("LIBRARY MANAGEMENT SYSTEM");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(251, 96, -1, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon("D:\\Rob77\\Pictures\\UHD01.JPG")); // NOI18N
-        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 100));
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_exitActionPerformed
+       // this button will exit the class
         System.exit(0);
     }//GEN-LAST:event_btn_exitActionPerformed
 
     private void btn_resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetActionPerformed
+      // this button will clear the field boxes in the form
         txt_username.setText(null);
         txt_password.setText(null);
     }//GEN-LAST:event_btn_resetActionPerformed
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-        
+      // this buttnon process the credentials
         String password = txt_password.getText();
         String username = txt_username.getText();
+        String credentials = username+password;
         
-
-
 // READ STAFF.TXT
- 
+            StaffFileOperations fileNew ;  // declaration of the object of type FileOperations
+            fileNew = new StaffFileOperations();   // Invoke Constructor FileOperations
+        
+            //fileNew.inputFileName();  // run method inputFileName and ask for the file name
+            //fileNew.readFile();   //  Open and read the file, then display on the screen.
+            
+            // Return asearch
+           found = fileNew.searchLogin(credentials);
 
 // Feb 28, 2019 Roberto: Verify credentials
-            if (password.contains("one") && (username.contains("king")))
+           //if (password.contains("one") && (username.contains("king")))  // THIS IS A TEST
+            if (found)    
             {
                 txt_username.setText(null);
                 txt_password.setText(null);
@@ -201,7 +215,13 @@ private JFrame frame;
                 Info.setVisible(true);
          
             }
-           
+                   else
+            {
+                JOptionPane.showMessageDialog(null,"Invalid Login Details", "ACCESS DENIED", JOptionPane.ERROR_MESSAGE);
+                txt_password.setText(null);
+                txt_username.setText(null);
+                txt_username.grabFocus();
+            }
 
     }//GEN-LAST:event_btn_loginActionPerformed
     
@@ -229,14 +249,22 @@ private JFrame frame;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LibLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -249,7 +277,7 @@ private JFrame frame;
         /* Create and display the form Main Menu */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new LibLogin().setVisible(true);
             }
         });
     }

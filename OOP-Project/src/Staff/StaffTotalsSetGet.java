@@ -1,5 +1,7 @@
 /*
- * STAFF Class
+ * Movies Class
+ * Movie Entity
+ * Able to add, update, delete a record from the MV_MOVIES table
  */
 package Staff;
 
@@ -7,9 +9,9 @@ package Staff;
  *
  * @author Roberto Gomez
  */
-public class Staff {
+public class StaffTotalsSetGet {
     
-    private String employeeID;
+    private int employeeID;
     private String firstName;
     private String lastName;
     private String title;
@@ -17,19 +19,23 @@ public class Staff {
     private String username;
     private String password;
 
-            
-    public Staff(String pemployeeid,  String pfirstname, String plastname, String pemployeetitle, 
-            String pphonenumber,  String pusername, String ppassword){
-        this.employeeID = pemployeeid;
-        this.firstName = pfirstname;
-        this.lastName = plastname;
-        this.title = pemployeetitle;
-        this.phoneNumber = pphonenumber;
-        this.username = pusername;
-        this.password = ppassword;
+    private byte[] staffPicture;
+    private int totalCount;
+    
+    public StaffTotalsSetGet(int ptotalcount){
+
+        this.totalCount  = ptotalcount;
+
     }
     
-    public String getemployeeid()
+    
+    
+    public int gettotalcount()
+    {
+        return totalCount;
+    }
+     
+    public int getmemployeeid()
     {
         return employeeID;
     }
@@ -63,5 +69,9 @@ public class Staff {
     {
         return password;
     }
-
+       
+    public byte[] getstaffpicture()
+    {
+        return staffPicture;
+    }
 }

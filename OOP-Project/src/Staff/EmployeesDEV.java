@@ -19,7 +19,7 @@ Select from list and fill out the fields  IN PROGRESS
 package Staff;
 /**
  * Created: Feb 1, 2019
- * Modified: Feb 24, 2019
+ * Modified: Mar 1, 2019
  * @author Roberto Gomez
  * @version 3
  */
@@ -58,8 +58,9 @@ public class EmployeesDEV extends javax.swing.JFrame {
         public String titleArray;
         public String phoneNumberArray;
         public String usernameArray;
+        public String passwordArray;
         
-        public User(String Id, String FName, String LName, String Title, String PhoneNumber, String Username)
+        public User(String Id, String FName, String LName, String Title, String PhoneNumber, String Username, String Password)
         {
             this.idArray = Id;
             this.fnameArray = FName;
@@ -67,6 +68,8 @@ public class EmployeesDEV extends javax.swing.JFrame {
             this.titleArray = Title;
             this.phoneNumberArray = PhoneNumber; 
             this.usernameArray = Username;
+            this.passwordArray = Password;
+            
         }
     }   
     
@@ -79,6 +82,7 @@ public class EmployeesDEV extends javax.swing.JFrame {
         String title ="";
         String phoneNumber = "";
         String userName = "";
+        String passWord = "";
         
         ArrayList<User> list = new ArrayList<User>();
         
@@ -95,7 +99,8 @@ public class EmployeesDEV extends javax.swing.JFrame {
                 title = x.next();                
                 phoneNumber = x.next();
                 userName = x.next();
-                User uX = new User(employeeID, firstName, lastName, title, phoneNumber, userName);
+                passWord = x.next();
+                User uX = new User(employeeID, firstName, lastName, title, phoneNumber, userName, passWord);
                 list.add(uX);
             }
         }
@@ -120,6 +125,7 @@ public class EmployeesDEV extends javax.swing.JFrame {
             rowData[3] = list.get(i).titleArray;
             rowData[4] = list.get(i).phoneNumberArray;
             rowData[5] = list.get(i).usernameArray;
+            rowData[6] = list.get(i).passwordArray;
             // add row to the model
             model.addRow(rowData);
         }
@@ -134,6 +140,9 @@ public class EmployeesDEV extends javax.swing.JFrame {
         String lastName = "";
         String title ="";
         String phoneNumber = "";
+        String username =  "";
+        String password = "";
+                
        
         try
         {

@@ -1,52 +1,174 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Staff;
+ * EMPLOYEESv2.java     IN PROGRESS
+   This section will manage staff information from a file
 
+staff.txt file
+FIELDS:  Employee ID, First Name, Last Name, Title, Phone Number, Username, Password
+
+Notes: This is the current version as of Feb 19, 2019
+
+Progress Report:
+Clear button working
+Search by Employee ID button working
+Add New Button working
+Select from list and fill out the fields  IN PROGRESS
+
+
+ */
+
+
+
+package StaffHOLD;
+/**
+ * Created: Feb 1, 2019
+ * Modified: Feb 23, 2019
+ * @author Roberto Gomez
+ * @version 2
+ */
+
+import Staff.*;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
-
-/**
- * Created: Feb 1, 2019
- * Modified: Feb 4, 2019
- * @author Roberto Gomez
- * @version 1
- */
+import javax.swing.table.DefaultTableModel;
 
 
 
-public class Employees extends javax.swing.JFrame {
+
+public class Employeesv2 extends javax.swing.JFrame {
 
     /**
-     * Creates new form Employees
+     * Feb 19, 2019 Roberto : Creates new form Employees
      */
-    public Employees() {
+    public Employeesv2() {
         initComponents();
+        addRowToJTable();  // update the list
     }
     
-    String filepath = "staff.txt";
+    String filepath = "staff.txt";  // this file has all the data for this section
     private static Scanner x;
 
-        // Check Input Fields
+// Feb 19, 2019 Roberto : For the ArrayList Part A
+    public class  User{
+        public String idArray;
+        public String fnameArray;
+        public String lnameArray;
+        public String titleArray;
+        public String phoneNumberArray;
+        
+        public User(String Id, String FName, String LName, String Title, String PhoneNumber)
+        {
+            this.idArray = Id;
+            this.fnameArray = FName;
+            this.lnameArray = LName;
+            this.titleArray = Title;
+            this.phoneNumberArray = PhoneNumber;
+            
+        }
+    }   
+    
+// Feb 19, 2019 Roberto : For the ArrayList Part B
+    public ArrayList ListUsers()
+    {
+        String employeeID = ""; 
+        String firstName = ""; 
+        String lastName = "";
+        String title ="";
+        String phoneNumber = "";
+        
+        ArrayList<User> list = new ArrayList<User>();
+        
+        try
+        {
+            x = new Scanner(new File(filepath));
+            x.useDelimiter("[,\n]");
+            
+            while(x.hasNext() )
+            {
+                employeeID = x.next();
+                firstName = x.next();
+                lastName = x.next();
+                title = x.next();                
+                phoneNumber = x.next();
+                User uX = new User(employeeID, firstName, lastName, title, phoneNumber);
+                list.add(uX);
+            }
+
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null, "Array Error");
+            
+        }
+               
+        return list;
+    }
+
+// Feb 19, 2019 Roberto : For the ArrayList Part C
+        public void addRowToJTable()
+    {
+        DefaultTableModel model = (DefaultTableModel) jTable_Employees.getModel();
+        ArrayList<User> list = ListUsers();
+        Object rowData[] = new Object[5];
+        for(int i=0; i < list.size(); i++)
+        {
+            rowData[0] = list.get(i).idArray;
+            rowData[1] = list.get(i).fnameArray;
+            rowData[2] = list.get(i).lnameArray;
+            rowData[3] = list.get(i).titleArray;
+            rowData[4] = list.get(i).phoneNumberArray;
+            model.addRow(rowData);
+        }
+    }
+ 
+        // Feb 19, 2019 Roberto : To Read the records from staff.txt
+        public static void readRecord (String filepath)
+    {
+        boolean found = false;
+        String employeeID = ""; 
+        String firstName = ""; 
+        String lastName = "";
+        String title ="";
+        String phoneNumber = "";
+       
+        try
+        {
+            x = new Scanner(new File(filepath));
+            x.useDelimiter("[,\n]");
+            
+            while(x.hasNext() )
+            {
+                employeeID = x.next();
+                firstName = x.next();
+                lastName = x.next();
+                title = x.next();                
+                phoneNumber = x.next();
+
+
+            }
+
+        }
+        catch(FileNotFoundException e)
+        {
+            JOptionPane.showMessageDialog(null, "Reading File Error");
+            
+        }
+    }
+    
+        // Feb 19, 2019 Roberto : Check Input Fields
+        // to verify they are not empty
     public boolean checkInputs()
     {
-        if (       txt_employeeID.getText() == null
-                || txt_FirstName.getText()== null
-                || txt_LastName.getText() == null
-                || txt_Title.getText() == null
-                || txt_PhoneNumber.getText() == null)
+        if (        txt_employeeID.getText().equals("")
+                || txt_FirstName.getText().equals("")
+                || txt_LastName.getText().equals("")
+                || txt_Title.getText().equals("")
+                || txt_PhoneNumber.getText().equals(""))
         {
         return false;
         }
@@ -55,7 +177,28 @@ public class Employees extends javax.swing.JFrame {
             return true;
         }
     }
-          
+    
+    // Feb 19, 2019 Roberto : This class define the Staff Fields
+    public class  Staff{
+        public int id;
+        public String fname;
+        public String lname;
+        public int age;
+        
+        public Staff(int Id, String FName, String LName, int Age)
+        {
+            this.id = Id;
+            this.fname = FName;
+            this.lname = LName;
+            this.age = Age;
+            
+        }
+    }
+        
+
+    
+    
+   // Feb 19, 2019 Roberto: This section search for a Record in the file by employee ID 
     public static void searchRecord (String searchterm, String filepath)
     {
         boolean found = false;
@@ -84,7 +227,6 @@ public class Employees extends javax.swing.JFrame {
                     found = true;
                 }
             }
-            
             if (found)
             {
                 JOptionPane.showMessageDialog(null, "ID: " + employeeID 
@@ -105,6 +247,7 @@ public class Employees extends javax.swing.JFrame {
         }
     }
     
+    // Feb 19,2019 Roberto: This section will save the new record in the file
         public static void saveRecord(String IDnum, String FirstName, String LastName, String Title, String PhoneNumber, String FilePath)
     {
         try
@@ -125,6 +268,16 @@ public class Employees extends javax.swing.JFrame {
         }
     }
     
+            // Show Data In Inputs
+    public void ShowItem(int index)
+    {
+         //   txt_employeeID.setText(Integer.toString(ListUsers().get(index).getemployeeid()));                  
+         //   txt_FirstName.setText(ListUsers().get(index).getfirstname());
+         //   txt_LastName.setText(ListUsers().get(index).getlastname()); 
+         //   txt_Title.setText(ListUsers().get(index).getemployeetitle());
+         //   txt_PhoneNumber.setText(ListUsers().get(index).getphonenumber());
+    }  
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -148,13 +301,17 @@ public class Employees extends javax.swing.JFrame {
         txt_Title = new javax.swing.JTextField();
         txt_PhoneNumber = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable_Employees = new javax.swing.JTable();
         btn_Add = new javax.swing.JButton();
         btn_Delete = new javax.swing.JButton();
         btn_Refresh = new javax.swing.JButton();
         btn_clear = new javax.swing.JButton();
         txt_SearchEmployeeID = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btn_searchEmployeeID = new javax.swing.JButton();
+        lbl_Username = new javax.swing.JLabel();
+        txt_Username = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txt_Password = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 204, 255));
@@ -185,25 +342,20 @@ public class Employees extends javax.swing.JFrame {
 
         txt_employeeID.setText(" ");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_Employees.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
                 "Employee ID", "First Name", "Last Name", "Title", "Phone Number"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setHeaderValue("Employee ID");
-            jTable1.getColumnModel().getColumn(1).setHeaderValue("First Name");
-            jTable1.getColumnModel().getColumn(2).setHeaderValue("Last Name");
-            jTable1.getColumnModel().getColumn(3).setHeaderValue("Title");
-            jTable1.getColumnModel().getColumn(4).setHeaderValue("Phone Number");
-        }
+        jTable_Employees.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_EmployeesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable_Employees);
 
         btn_Add.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         btn_Add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/java_icons/add.png"))); // NOI18N
@@ -225,12 +377,16 @@ public class Employees extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Search by Employee ID");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_searchEmployeeID.setText("Search by Employee ID");
+        btn_searchEmployeeID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_searchEmployeeIDActionPerformed(evt);
             }
         });
+
+        lbl_Username.setText("Username");
+
+        jLabel7.setText("Password");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -245,15 +401,19 @@ public class Employees extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6))
+                            .addComponent(jLabel6)
+                            .addComponent(lbl_Username)
+                            .addComponent(jLabel7))
                         .addGap(58, 58, 58)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txt_Title)
                             .addComponent(txt_LastName, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_FirstName, javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_employeeID, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                            .addComponent(txt_PhoneNumber))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE))
+                            .addComponent(txt_PhoneNumber)
+                            .addComponent(txt_Username)
+                            .addComponent(txt_Password))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_clear)
@@ -261,7 +421,7 @@ public class Employees extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 476, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton2)
+                        .addComponent(btn_searchEmployeeID)
                         .addGap(31, 31, 31)
                         .addComponent(txt_SearchEmployeeID, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(41, 41, 41))
@@ -272,7 +432,7 @@ public class Employees extends javax.swing.JFrame {
                 .addComponent(btn_Delete)
                 .addGap(143, 143, 143)
                 .addComponent(btn_Refresh)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,18 +441,18 @@ public class Employees extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_clear)
                     .addComponent(txt_SearchEmployeeID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(btn_searchEmployeeID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txt_employeeID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
                             .addComponent(txt_FirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(txt_LastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -304,11 +464,18 @@ public class Employees extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(txt_PhoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(70, 70, 70)))
+                        .addGap(35, 35, 35)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbl_Username)
+                            .addComponent(txt_Username, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(5, 5, 5)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txt_Password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_Add)
                     .addComponent(btn_Delete)
@@ -343,7 +510,7 @@ public class Employees extends javax.swing.JFrame {
                         .addComponent(jButton1)))
                 .addGap(39, 39, 39)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
 
         pack();
@@ -355,7 +522,8 @@ public class Employees extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_AddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AddActionPerformed
-        if(checkInputs() )
+        // Feb 19, 2019 Roberto: This seciton will add the new record to the text file
+        if(checkInputs() )   // first, check all the fields
         {
             String ID = txt_employeeID.getText();
             String firstname = txt_FirstName.getText();
@@ -371,12 +539,15 @@ public class Employees extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "One or More Fields Are Empty");
 
-        }        
-                
+        }
 
+  
+       // addRowToJTable();
     }//GEN-LAST:event_btn_AddActionPerformed
 
     private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
+       // Feb 19, 2019 Roberto: This will clear all the fields in the form
+        
         txt_employeeID.setText(null);
         txt_FirstName.setText(null);
         txt_LastName.setText(null);
@@ -385,11 +556,20 @@ public class Employees extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_clearActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_searchEmployeeIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_searchEmployeeIDActionPerformed
+      // Feb 19, 2019 Roberto: This section will search by employee ID
         String searchTerm = txt_SearchEmployeeID.getText();
         
         searchRecord(searchTerm,filepath);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_searchEmployeeIDActionPerformed
+
+    private void jTable_EmployeesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_EmployeesMouseClicked
+        int row = jTable_Employees.getSelectedRow();
+        String tableClick = jTable_Employees.getModel().getValueAt(row, 2).toString();
+        
+        //txt_employeeID.setText(model.getValueAt(row, 0));
+        
+    }//GEN-LAST:event_jTable_EmployeesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -408,20 +588,23 @@ public class Employees extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employeesv2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employeesv2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employeesv2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Employees.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Employeesv2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Employees().setVisible(true);
+                new Employeesv2().setVisible(true);
             }
         });
     }
@@ -431,22 +614,26 @@ public class Employees extends javax.swing.JFrame {
     private javax.swing.JButton btn_Delete;
     private javax.swing.JButton btn_Refresh;
     private javax.swing.JButton btn_clear;
+    private javax.swing.JButton btn_searchEmployeeID;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable_Employees;
+    private javax.swing.JLabel lbl_Username;
     private javax.swing.JTextField txt_FirstName;
     private javax.swing.JTextField txt_LastName;
+    private javax.swing.JTextField txt_Password;
     private javax.swing.JTextField txt_PhoneNumber;
     private javax.swing.JTextField txt_SearchEmployeeID;
     private javax.swing.JTextField txt_Title;
+    private javax.swing.JTextField txt_Username;
     private javax.swing.JTextField txt_employeeID;
     // End of variables declaration//GEN-END:variables
 }
