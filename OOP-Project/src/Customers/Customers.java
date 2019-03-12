@@ -232,7 +232,7 @@ import javax.swing.table.DefaultTableModel;
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             
-            pw.println(AccountNum+"," + firstName + "," + lastName + "," + phoneNum + "," + email + "," + enrollmentDate + ","); //Theres a mediaType in this 
+            pw.println(AccountNum+"," + firstName + "," + lastName + "," + phoneNum + "," + email + "," + enrollmentDate); //Theres a mediaType in this 
             pw.flush();
             pw.close();
             
