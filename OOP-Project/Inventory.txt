@@ -1,4 +1,12 @@
-testID, testTitle, testAuthor, testISBN, testGenre, testPrice, testMediaType
-1324,Test 1,No one,124355476353,Comedy,1.99,Book
-Test 2 ,Test 2,Test 2,test 2,Test 2,Test 2,Test 
+ID, Title , Author ,I SBN, Genre, Price, Media Type
+1001 , Test 1, No one, 124355476353, Comedy, 1.99, Book
+1002 , Test 2, Test 2,test 2,Test 2,Test 2,Test 2
+1003 , Girl Stop Apologizing, Rachel Hollis, 9781404110380, Non Fiction, 14.99, Book
+1004 , Girl Stop Apologizing, Rachel Hollis, 9781404110380, Non Fiction, 14.99, Book
+1005 , The Chef, James Patterson, 9780316453301, Fiction, 16.80, Book
+1006 , The Chef, James Patterson, 9780316453301, Fiction, 16.80, Book
+1007 , The Steel Prince, V.E. Schwab & Andrea Olimpieri, 9781787731790, Graphic Novel, 15.29, Book
+1008 , The Steel Prince, V.E. Schwab & Andrea Olimpieri, 9781787731790, Graphic Novel, 15.29, Book
+1009 , The Steel Prince, V.E. Schwab & Andrea Olimpieri, 9781787731790, Graphic Novel, 15.29, Book
+1010 , Cemetery Road, Greg Iles, 9780062945242, Fiction, 17.39, Book
 
