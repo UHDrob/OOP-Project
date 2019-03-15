@@ -5,24 +5,14 @@
 */
 package Inventory;
 
-import CheckOut.*;
-import Staff.*;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /*//////////////////////////////////////////////////////////////////////////////
@@ -91,16 +81,8 @@ public class Inventory extends javax.swing.JFrame
     }
     
     public ArrayList ListItems()// Used to create rows for table
-    {
-        String itemID = ""; 
-        String title = ""; 
-        String author = "";
-        String isbn ="";
-        String genre = "";
-        String price = "";
-        String mediaType = "";
-        
-        ArrayList<Items> list = new ArrayList<Items>();
+    {   
+        ArrayList<Items> list = new ArrayList<>();
         try
         {
             x = new Scanner(new File(filepath));
@@ -108,13 +90,13 @@ public class Inventory extends javax.swing.JFrame
             
             while(x.hasNext() )
             {
-                itemID = x.next();
-                title = x.next();
-                author = x.next();
-                isbn = x.next();                
-                genre = x.next();
-                price = x.next();
-                mediaType = x.next();
+                String itemID = x.next();
+                String title = x.next();
+                String author = x.next();
+                String isbn = x.next();                
+                String genre = x.next();
+                String price = x.next();
+                String mediaType = x.next();
                 
                 Items iList = new Items(itemID, title, author, isbn, genre, 
                         price, mediaType);
@@ -170,7 +152,8 @@ public class Inventory extends javax.swing.JFrame
             return true;    
     }
     
-    public static void readRecord (String searchterm, String filepath)
+    public static void readRecord (String searchID, String searchTitle, 
+            String searchAuthor, String filepath)
     {   /* Search Inventory Records, need to fix want to search for more than 
         just the invetory ID, would like to search multiple fields*/ 
         boolean found = false;
@@ -187,7 +170,7 @@ public class Inventory extends javax.swing.JFrame
             x = new Scanner(new File(filepath));
             x.useDelimiter("[,\n]");
             
-            while(x.hasNext() && !found )
+            while(x.hasNext() && !found)
             {
                 id = x.next();
                 title = x.next();
@@ -201,12 +184,9 @@ public class Inventory extends javax.swing.JFrame
                 this statement assumes that fields cannot be the same values
                 what if there are multiple books with the same author
                 want to display them all, possibly within the table*/
-                if(id.equals(searchterm)||
-                        title.equals(searchterm)||
-                        author.equals(searchterm))
-                {
+                if(id.equals(searchID) || title.equals(searchTitle)||
+                        author.equals(searchAuthor))
                     found = true;
-                }
             }
             // this statement is fine
             if (found)
@@ -224,7 +204,7 @@ public class Inventory extends javax.swing.JFrame
                 JOptionPane.showMessageDialog(null,"Record NOT found");
             }
         }
-        catch(Exception e)
+        catch(FileNotFoundException e)
         {
             JOptionPane.showMessageDialog(null, "Error");
             
@@ -294,6 +274,7 @@ public class Inventory extends javax.swing.JFrame
         btn_Add_New_Inventory = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         txt_New_Media_Type = new javax.swing.JTextField();
+        scrollPane1 = new java.awt.ScrollPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         InventoryTable = new javax.swing.JTable();
 
@@ -445,7 +426,7 @@ public class Inventory extends javax.swing.JFrame
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap(436, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -458,7 +439,7 @@ public class Inventory extends javax.swing.JFrame
                             .addComponent(txt_New_InventoryNo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_New_Title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                             .addComponent(txt_New_Author, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 572, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel6)
                             .addComponent(jLabel8)
@@ -531,6 +512,8 @@ public class Inventory extends javax.swing.JFrame
         });
         jScrollPane1.setViewportView(InventoryTable);
 
+        scrollPane1.add(jScrollPane1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -539,7 +522,8 @@ public class Inventory extends javax.swing.JFrame
                 .addGap(63, 63, 63)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 882, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 696, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -553,9 +537,9 @@ public class Inventory extends javax.swing.JFrame
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(33, 33, 33)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(489, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addComponent(scrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -565,13 +549,13 @@ public class Inventory extends javax.swing.JFrame
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 738, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 296, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(78, 78, 78))
             .addGroup(layout.createSequentialGroup()
-                .addGap(110, 110, 110)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -585,7 +569,7 @@ public class Inventory extends javax.swing.JFrame
                         .addComponent(jButton1)))
                 .addGap(39, 39, 39)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -596,33 +580,11 @@ public class Inventory extends javax.swing.JFrame
         Info.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
-        //Clears data input into the search boxes
-        // Works fine
-        txt_SearchID.setText(null);
-        txt_SearchTitle.setText(null);
-        txt_SearchAuthor.setText(null);
- 
-    }//GEN-LAST:event_btn_clearActionPerformed
-
-    private void btn_SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SearchButtonActionPerformed
-        /* this needs to read from multiple text fields to find the value,
-          possible case to determine which text field to utilize for searching*/      
-    
-        String searchTerm = txt_SearchID.getText();
-
-        readRecord(searchTerm,filepath);
-    }//GEN-LAST:event_btn_SearchButtonActionPerformed
-
-    private void txt_SearchIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_SearchIDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_SearchIDActionPerformed
-
     private void btn_Add_New_InventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Add_New_InventoryActionPerformed
         if(checkInputs()== true)
         {/* After clicking new, add items to text file
             Works fine*/
-        
+
             String id = txt_New_InventoryNo.getText();
             String title = txt_New_Title.getText();
             String author = txt_New_Author.getText();
@@ -630,7 +592,7 @@ public class Inventory extends javax.swing.JFrame
             String genre = txt_New_Genre.getText();
             String price = txt_New_Price.getText();
             String mediaType = txt_New_Media_Type.getText();
-            
+
             saveRecord(id, title, author, isbn, genre, price, mediaType, filepath);
 
             JOptionPane.showMessageDialog(null,"New Inventory Item has been created");
@@ -640,7 +602,6 @@ public class Inventory extends javax.swing.JFrame
             JOptionPane.showMessageDialog(null, "One or More Fields Are Empty");
 
         }
-
     }//GEN-LAST:event_btn_Add_New_InventoryActionPerformed
 
     private void txt_New_ISBNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_New_ISBNActionPerformed
@@ -658,6 +619,29 @@ public class Inventory extends javax.swing.JFrame
     private void txt_SearchAuthorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_SearchAuthorActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_SearchAuthorActionPerformed
+
+    private void txt_SearchIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_SearchIDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_SearchIDActionPerformed
+
+    private void btn_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_clearActionPerformed
+        //Clears data input into the search boxes
+        // Works fine
+        txt_SearchID.setText(null);
+        txt_SearchTitle.setText(null);
+        txt_SearchAuthor.setText(null);
+    }//GEN-LAST:event_btn_clearActionPerformed
+
+    private void btn_SearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SearchButtonActionPerformed
+        /* this needs to read from multiple text fields to find the value,
+        possible case to determine which text field to utilize for searching*/
+
+        String searchID = txt_SearchID.getText();
+        String searchTitle = txt_SearchTitle.getText();
+        String searchAuthor = txt_SearchAuthor.getText();
+
+        readRecord(searchID, searchTitle, searchAuthor,filepath);
+    }//GEN-LAST:event_btn_SearchButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -718,6 +702,7 @@ public class Inventory extends javax.swing.JFrame
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private java.awt.ScrollPane scrollPane1;
     private javax.swing.JTextField txt_New_Author;
     private javax.swing.JTextField txt_New_Genre;
     private javax.swing.JTextField txt_New_ISBN;
