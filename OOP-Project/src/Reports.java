@@ -1,16 +1,23 @@
 
+import java.awt.List;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 
 
 /*
@@ -60,16 +67,16 @@ public class Reports extends javax.swing.JFrame
     /*//////////////////////////////////////////////////////////////////////////
     //Saves the records to a textfile                                         //
     *///////////////////////////////////////////////////////////////////////////
-    public static void saveRecord(String fName, String lName, String inventoryID) throws FileNotFoundException
+    public static void saveRecord(String fName, String lName, String inventoryID) 
+            throws FileNotFoundException
     {  
         try
         {   
-            
             FileWriter fw = new FileWriter("LateItems.txt", true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             
-            pw.println(fName+" " + lName + " has overdue inventory item: " + inventoryID);
+            pw.println(fName + " " + lName + " has overdue item: " + inventoryID);
             pw.flush();
             pw.close();
         }
@@ -82,39 +89,38 @@ public class Reports extends javax.swing.JFrame
     /*//////////////////////////////////////////////////////////////////////////
     //Compares dates to determine if an item is late                          //
     *///////////////////////////////////////////////////////////////////////////
-    public static String compareDates() throws ParseException
+    public static void compareDates() throws ParseException, FileNotFoundException
     {
-        String message = "";
-        
         try
         {
-            // dates scanner
+            //==========  Scanner and delimiter for CheckInOut.txt  ==========//
             String filepath = "CheckInOut.txt";
             Scanner x = new Scanner(new File(filepath));
             x.useDelimiter("[,\n]");
-            // customer file scanner
-            String cfile = "Customer.txt";
-            Scanner c = new Scanner(new File(cfile));
-            c.useDelimiter("[,\n]");
+            //================ Date formatter ================================//
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            //================= Get current date =====================//
+            String todaysDate = sdf.format(new Date());
+            //==== Converts String dates to Date objects for comparison ======//
+            Date today = sdf.parse(todaysDate);
             
-            while(x.hasNext())
+            while(x.hasNext()) // check to see if there is more data in file
             {
                 String customerID= x.next();
                 String inventoryID = x.next();
                 String checkOut = x.next();
                 String dueDate= x.next(); 
-                // need to figure out how to pull in current date
-                String todaysDate = "2019-03-15";
-                // convert dates from stings to Date object and format  year-month-day
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                Date today = sdf.parse(todaysDate);
+                //============== convert date to string ======================//
                 Date due = sdf.parse(dueDate);
-                if (today.equals(due) || today.before(due))
+                //================  Compare dates =================//
+                if (today.after(due))
                 {
-                    System.out.println("Item due today");
-                }
-                else if (today.after(due))
-                {
+                    //======  Scanner and delimiter for Customers.txt  ======//
+                    String cfile = "Customers.txt";
+                    Scanner c = new Scanner(new File(cfile));
+                    c.useDelimiter("[,\n]");
+                   
+                    // work throught customer file to see who has late items
                     while (c.hasNext())
                     {
                         String fName = c.next();
@@ -122,20 +128,33 @@ public class Reports extends javax.swing.JFrame
                         String acctNum = c.next();
                         if(customerID.equals(acctNum))
                         {
-                            saveRecord(fName, lName, inventoryID);
-                            break;
-                        }
+                           // Save records to LateItems.txt
+                           saveRecord(fName, lName, inventoryID);    
+                        } 
+                        else {}
                     }
-                }  
-            }
-            
+                }
+            }  
         }
         catch(FileNotFoundException e)
         {
-            message = "File not found";
+            JOptionPane.showMessageDialog(null, "Error");
             
         }
-        return message;
+    }
+
+    public static void calculateFees()
+    {   // get late items from LateItems.txt and price from inventory.txt to 
+        // calculate fees
+        String price = "19.99";
+        double pprice = Double.parseDouble(price);
+        System.out.println(pprice);
+        double fee = pprice * 0.15;
+        // print out after calculation
+        System.out.println("Fee for late book: " + fee);
+        // format with 2 decimal places
+        DecimalFormat numberFormat = new DecimalFormat("###.00");
+        System.out.println(numberFormat.format(fee));
     }
     
     /**
@@ -148,7 +167,7 @@ public class Reports extends javax.swing.JFrame
     private void initComponents() {
 
         textArea = new java.awt.TextArea();
-        reportChoice = new javax.swing.JComboBox<>();
+        rchoice = new javax.swing.JComboBox<>();
         ReportLable = new javax.swing.JLabel();
         generateReport = new javax.swing.JButton();
 
@@ -156,9 +175,9 @@ public class Reports extends javax.swing.JFrame
 
         textArea.setFont(new java.awt.Font("Copperplate Gothic Light", 0, 18)); // NOI18N
 
-        reportChoice.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        reportChoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Report Options", "Late Items", "Fees", "Another" }));
-        reportChoice.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        rchoice.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        rchoice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Report Options", "Late Items", "Fees", "Another" }));
+        rchoice.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         ReportLable.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         ReportLable.setText("Reports");
@@ -183,7 +202,7 @@ public class Reports extends javax.swing.JFrame
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(ReportLable, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(reportChoice, javax.swing.GroupLayout.Alignment.LEADING, 0, 274, Short.MAX_VALUE))
+                            .addComponent(rchoice, javax.swing.GroupLayout.Alignment.LEADING, 0, 274, Short.MAX_VALUE))
                         .addGap(61, 61, 61)
                         .addComponent(generateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(63, Short.MAX_VALUE))
@@ -196,7 +215,7 @@ public class Reports extends javax.swing.JFrame
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(generateReport, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                    .addComponent(reportChoice))
+                    .addComponent(rchoice))
                 .addGap(19, 19, 19)
                 .addComponent(textArea, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(34, Short.MAX_VALUE))
@@ -206,26 +225,41 @@ public class Reports extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
 
     private void generateReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateReportActionPerformed
-        // TODO add your handling code here:
-        
-        String choice = reportChoice.getSelectedItem() + "";
-        //textArea.setText(choice);
-        switch (choice) 
+        String choice = rchoice.getSelectedItem() + ""; 
+        switch (choice)
         {
             case "Late Items":
-                try
-                {   // empty file as to not concantinate, prints Late items to file
-                    emptyFile();
+                emptyFile();
+                
+                try 
+                {
                     compareDates();
-                    // need to load the textfile into the reports textArea
-                    // this is not working properly
                 } 
-                catch (ParseException ex) 
+                catch (ParseException | FileNotFoundException ex) 
+                {
+                    Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                String filename = "LateItems.txt"; // file name
+                File file = new File(filename); // open file
+                
+                try (Scanner inputFile = new Scanner(file))
+                { // Read lines from the file until no more are left
+                    while (inputFile.hasNext()) 
+                    {
+                        // Read the line into TextArea
+                        String message = inputFile.nextLine();
+                        textArea.append(message);
+                        textArea.append("\n");
+                    }
+                }
+                catch (FileNotFoundException ex)
                 {
                     Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 break;
             case "Fees":
+                // Want to output LateFees.txt here
                 textArea.setText("Calculate Fees here");
                 break;
             case "Another":
@@ -274,7 +308,7 @@ public class Reports extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ReportLable;
     private javax.swing.JButton generateReport;
-    private javax.swing.JComboBox<String> reportChoice;
+    private javax.swing.JComboBox<String> rchoice;
     private java.awt.TextArea textArea;
     // End of variables declaration//GEN-END:variables
 }

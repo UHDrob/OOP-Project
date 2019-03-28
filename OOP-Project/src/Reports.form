@@ -30,7 +30,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                           <Component id="ReportLable" alignment="0" max="32767" attributes="0"/>
-                          <Component id="reportChoice" alignment="0" pref="274" max="32767" attributes="0"/>
+                          <Component id="rchoice" alignment="0" pref="274" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                       <Component id="generateReport" min="-2" pref="244" max="-2" attributes="0"/>
@@ -48,7 +48,7 @@
               <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="generateReport" pref="60" max="32767" attributes="0"/>
-                  <Component id="reportChoice" max="32767" attributes="0"/>
+                  <Component id="rchoice" max="32767" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
               <Component id="textArea" min="-2" pref="392" max="-2" attributes="0"/>
@@ -65,7 +65,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="reportChoice">
+    <Component class="javax.swing.JComboBox" name="rchoice">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="24" style="1"/>
