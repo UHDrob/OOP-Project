@@ -34,6 +34,9 @@ import javax.swing.JTextArea;
 // into OOP project and further the functionality by adding calculation of dates
 //
 // Issues: reading out the data in LateItems.txt into the textArea
+// March 27th: reading to text area solved
+//             To do: complete calculated fees 
+//                    add more reports if needed
 //////////////////////////////////////////////////////////////////////////////*/
 /**
  *
@@ -52,11 +55,11 @@ public class Reports extends javax.swing.JFrame
     /*//////////////////////////////////////////////////////////////////////////
     //Empty file to insure that duplicates are not created of the same data   //
     *///////////////////////////////////////////////////////////////////////////
-    public static void emptyFile()
+    public static void emptyFile(String file)
     {
         try 
         {
-            PrintWriter writer = new PrintWriter("LateItems.txt");
+            PrintWriter writer = new PrintWriter(file);
             writer.print("");
             writer.flush();
             writer.close();
@@ -67,12 +70,12 @@ public class Reports extends javax.swing.JFrame
     /*//////////////////////////////////////////////////////////////////////////
     //Saves the records to a textfile                                         //
     *///////////////////////////////////////////////////////////////////////////
-    public static void saveRecord(String fName, String lName, String inventoryID) 
+    public static void saveRecord(String fName, String lName, String inventoryID, String file) 
             throws FileNotFoundException
     {  
         try
         {   
-            FileWriter fw = new FileWriter("LateItems.txt", true);
+            FileWriter fw = new FileWriter(file, true);
             BufferedWriter bw = new BufferedWriter(fw);
             PrintWriter pw = new PrintWriter(bw);
             
@@ -89,12 +92,12 @@ public class Reports extends javax.swing.JFrame
     /*//////////////////////////////////////////////////////////////////////////
     //Compares dates to determine if an item is late                          //
     *///////////////////////////////////////////////////////////////////////////
-    public static void compareDates() throws ParseException, FileNotFoundException
+    public static void compareDates(String infile1, String infile2, String outfile) throws ParseException, FileNotFoundException
     {
         try
         {
             //==========  Scanner and delimiter for CheckInOut.txt  ==========//
-            String filepath = "CheckInOut.txt";
+            String filepath = infile1;
             Scanner x = new Scanner(new File(filepath));
             x.useDelimiter("[,\n]");
             //================ Date formatter ================================//
@@ -116,7 +119,7 @@ public class Reports extends javax.swing.JFrame
                 if (today.after(due))
                 {
                     //======  Scanner and delimiter for Customers.txt  ======//
-                    String cfile = "Customers.txt";
+                    String cfile = infile2;
                     Scanner c = new Scanner(new File(cfile));
                     c.useDelimiter("[,\n]");
                    
@@ -129,7 +132,7 @@ public class Reports extends javax.swing.JFrame
                         if(customerID.equals(acctNum))
                         {
                            // Save records to LateItems.txt
-                           saveRecord(fName, lName, inventoryID);    
+                           saveRecord(fName, lName, inventoryID, outfile);    
                         } 
                         else {}
                     }
@@ -229,21 +232,24 @@ public class Reports extends javax.swing.JFrame
         switch (choice)
         {
             case "Late Items":
-                emptyFile();
+                String file = "LateItems.txt";
+                emptyFile(file);
                 
                 try 
                 {
-                    compareDates();
+                    String check = "CheckInOut.txt";
+                    String cust = "Customers.txt";
+                    
+                    compareDates(check, cust, file);
                 } 
                 catch (ParseException | FileNotFoundException ex) 
                 {
                     Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
-                String filename = "LateItems.txt"; // file name
-                File file = new File(filename); // open file
+                File filepath = new File(file); // open file
                 
-                try (Scanner inputFile = new Scanner(file))
+                try (Scanner inputFile = new Scanner(filepath))
                 { // Read lines from the file until no more are left
                     while (inputFile.hasNext()) 
                     {
