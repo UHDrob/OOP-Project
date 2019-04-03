@@ -1,0 +1,12 @@
+Nina Long has overdue item: Test 1 
+	Fees owed:   0.10
+John Smith has overdue item: Test 1 
+	Fees owed:   0.10
+Jane Doe has overdue item: Test 2 
+	Fees owed:   0.35
+Frank White has overdue item: Girl Stop Apologizing 
+	Fees owed:   0.75
+Eddie Garza has overdue item: The Chef 
+	Fees owed:   0.84
+Zane Fields has overdue item: The Chef 
+	Fees owed:   0.84

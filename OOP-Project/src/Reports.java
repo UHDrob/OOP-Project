@@ -1,23 +1,19 @@
 
-import java.awt.List;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
 
 
 /*
@@ -70,7 +66,7 @@ public class Reports extends javax.swing.JFrame
     /*//////////////////////////////////////////////////////////////////////////
     //Saves the records to a textfile                                         //
     *///////////////////////////////////////////////////////////////////////////
-    public static void saveRecord(String fName, String lName, String inventoryID, String file) 
+    public static void saveLateItems(String fName, String lName, String inventoryID, String file) 
             throws FileNotFoundException
     {  
         try
@@ -132,7 +128,7 @@ public class Reports extends javax.swing.JFrame
                         if(customerID.equals(acctNum))
                         {
                            // Save records to LateItems.txt
-                           saveRecord(fName, lName, inventoryID, outfile);    
+                           saveLateItems(fName, lName, inventoryID, outfile);    
                         } 
                         else {}
                     }
@@ -145,21 +141,227 @@ public class Reports extends javax.swing.JFrame
             
         }
     }
+    /**
+     *
+     * @param id
+     * @param fees
+     * @param file
+     * @throws FileNotFoundException
+     */
+    /*//////////////////////////////////////////////////////////////////////////
+    //                         Save fees to LateFees.txt                      //
+    *///////////////////////////////////////////////////////////////////////////
+    public static void saveFees(String id, double fees, String file) throws FileNotFoundException
+    {
+        try
+        { 
+            FileWriter fw = new FileWriter(file, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            
+            pw.println(id+","+ fees);
+            pw.flush();
+            pw.close();
+        }
+       
+        catch(Exception E)
+        {
+            JOptionPane.showMessageDialog(null, "Record NOT Saved");
+        }
+    }
+    /**
+     *
+     * @throws FileNotFoundException
+     * @throws ParseException
+     */
+    /*//////////////////////////////////////////////////////////////////////////
+    //Determines if a book is late and what level of fee should be associated //
+    // with the product being late.                                           //
+    *///////////////////////////////////////////////////////////////////////////
+    public static void calcDates() throws FileNotFoundException, ParseException
+    {
+        String dates = "CheckInOut.txt";
+        Scanner d = new Scanner(new File(dates));
+        d.useDelimiter("[,\n]");
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date(); // todays date
+        Calendar c = Calendar.getInstance(); // makes calendar instance
+        c.setTime(currentDate); // converts date to calendar
+        
+        System.out.println("Todays Date Calendar: " + currentDate);
+       
+        //============== subtract days from the current date =================//
+        c.add(Calendar.DATE, -1);//day prior to current
+        Date currentDateMin1 = c.getTime();
+        c.add(Calendar.DATE, -15); // 2 weeks before current date
+        Date currentDateMin15 = c.getTime();
+        Date currentDateMin29 = c.getTime();
+        c.add(Calendar.DATE, -14);// 6 weeks before current date
+        Date currentDateMin43 = c.getTime();
+     
+        while (d.hasNext())
+        {
+            String custID = d.next();
+            String inID = d.next();
+            String outDate = d.next();
+            String dueDate = d.next();
+            //============== convert date to string ======================//
+            Date due = sdf.parse(dueDate);
+            Calendar dueD = Calendar.getInstance();
+            dueD.setTime(due);
+            System.out.println("Due date Calendar: " + due);
+            
+            if (due.before(currentDateMin1)&& due.after(currentDateMin15))
+            {
+                calculateFees(1, inID); 
+            }
+            else if (due.before(currentDateMin15)&& due.after(currentDateMin29))
+            {
+                calculateFees(2, inID);
+            }
+            else if (due.before(currentDateMin29)&& due.after(currentDateMin43))
+            {
+                calculateFees(3, inID);
+            }
+            else if (due.before(currentDateMin43))
+            {
+                calculateFees(4, inID);
+            }
+        }
+    }
+    /*//////////////////////////////////////////////////////////////////////////
+    //              Calculate fees                                            //
+    *///////////////////////////////////////////////////////////////////////////
 
-    public static void calculateFees()
-    {   // get late items from LateItems.txt and price from inventory.txt to 
-        // calculate fees
-        String price = "19.99";
-        double pprice = Double.parseDouble(price);
-        System.out.println(pprice);
-        double fee = pprice * 0.15;
-        // print out after calculation
-        System.out.println("Fee for late book: " + fee);
-        // format with 2 decimal places
-        DecimalFormat numberFormat = new DecimalFormat("###.00");
-        System.out.println(numberFormat.format(fee));
+    /**
+     *
+     * @param option
+     * @param pprice
+     * @return
+     */
+    public static double fees(int option, double pprice)
+    {
+        double fee = 0; 
+        switch(option)
+        {
+            case 1: 
+                fee = pprice * 0.05;
+                break;
+            case 2: 
+                fee = pprice * 0.15;
+               break; 
+            case 3:
+                fee = pprice * 0.25;
+                break; 
+            case 4:
+                fee = pprice;
+                break;
+            default:
+                System.out.println("Invalid input.");
+        }
+        return fee;
     }
     
+    public static void calculateFees(int option, String inID) throws FileNotFoundException, ParseException
+    {
+        String file = "Inventory.txt";
+        Scanner i = new Scanner(new File(file));
+        i.useDelimiter("[,\n]");
+        double fee; 
+        String outfile = "LateFees.txt";
+        while (i.hasNext())
+        {//ID,Title,Author,ISBN,Genre,Price,Media Type
+            String id = i.next();
+            String title = i.next();
+            String author = i.next();
+            String isbn = i.next();
+            String genre = i.next();
+            String price = i.next();
+            String media = i.next();  
+            double pprice = Double.parseDouble(price);
+            
+            if (id.equals(inID)) 
+            {
+                fee = fees(option, pprice);
+                saveFees(id, fee, outfile);
+            }
+        }
+    }
+    public static void feeReport() throws FileNotFoundException
+    {
+        String feeFile = "LateFees.txt";
+        Scanner f = new Scanner(new File(feeFile));
+        f.useDelimiter("[,\n]");
+        
+        while(f.hasNext())
+        {
+            String fId = f.next();
+            String fee = f.next();
+            
+            String file = "Inventory.txt";
+            Scanner i = new Scanner(new File(file));
+            i.useDelimiter("[,\n]");
+        
+            while (i.hasNext())
+            {
+                //ID,Title,Author,ISBN,Genre,Price,Media Type
+                String id = i.next();
+                String title = i.next();
+                String author = i.next();
+                String isbn = i.next();
+                String genre = i.next();
+                String price = i.next();
+                String media = i.next();
+                
+                if(fId.equals(id))
+                {
+                    String lFile = "LateItems.txt";
+                    Scanner l = new Scanner(new File(lFile));
+        
+                    while(l.hasNext())
+                    {
+                        String fname = l.next();
+                        String lname = l.next();
+                        String k = l.next();
+                        String t = l.next();
+                        String x = l.next();
+                        String num = l.next();
+                        
+                        if(fId.equals(num))
+                        {
+                            String rfile = "FeeReport.txt";
+                            saveFeeReport(fname, lname, title, num, fee, rfile);
+                        }
+                    }
+                }
+            }
+        }
+    }
+     public static void saveFeeReport(String fname, String lname, String title,
+             String num, String fee, String rfile) throws FileNotFoundException
+    {
+        try
+        { 
+            FileWriter fw = new FileWriter(rfile, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter pw = new PrintWriter(bw);
+            pw.println(fname + " "+lname+ " has overdue item: "+ title + " ");
+            float x = Float.valueOf(fee);
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+            DecimalFormat format = new DecimalFormat("###.00");
+            //format.setDecimalFormatSymbols();
+            String sf2=String.format("%6.2f",x);  
+            pw.println("\tFees owed: "+ sf2);       
+            pw.flush();
+            pw.close();
+        }
+       
+        catch(Exception E)
+        {
+            JOptionPane.showMessageDialog(null, "Record NOT Saved");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -234,7 +436,7 @@ public class Reports extends javax.swing.JFrame
             case "Late Items":
                 String file = "LateItems.txt";
                 emptyFile(file);
-                
+                textArea.setText("");
                 try 
                 {
                     String check = "CheckInOut.txt";
@@ -266,7 +468,37 @@ public class Reports extends javax.swing.JFrame
                 break;
             case "Fees":
                 // Want to output LateFees.txt here
-                textArea.setText("Calculate Fees here");
+                String fFile = "FeeReport.txt";
+                emptyFile(fFile);
+                String fees = "LateFees.txt";
+                emptyFile(fees);
+                textArea.setText("");
+                try 
+                {
+                    calcDates();
+                    feeReport();
+                } 
+                catch (FileNotFoundException | ParseException ex) 
+                {
+                    Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                File path = new File(fFile); // open file
+                
+                try (Scanner inputFile = new Scanner(path))
+                { // Read lines from the file until no more are left
+                    while (inputFile.hasNext()) 
+                    {
+                        // Read the line into TextArea
+                        String message = inputFile.nextLine();
+                        textArea.append(message);
+                        textArea.append("\n");
+                    }
+                }
+                catch (FileNotFoundException ex)
+                {
+                    Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             case "Another":
                 textArea.setText("Can do some other reports");
