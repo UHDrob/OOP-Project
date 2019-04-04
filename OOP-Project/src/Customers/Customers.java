@@ -6,7 +6,6 @@
 package Customers;
 
 import CheckOut.*; //import static Customers.Customers.readRecord and Customers.Customers.saveRecord;
-import Staff.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
