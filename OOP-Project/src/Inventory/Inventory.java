@@ -36,7 +36,9 @@ import javax.swing.table.DefaultTableModel;
  *      To do: Search multiple fields
  *             Now recieving error message when going to Inventory screen
  *             Verify information prior to saving data in text file
- *             Start Report Class            
+ *             Start Report Class   
+ * Update: April 5, 2019: 
+*       Displaying data into the table is not currently working. 
  /////////////////////////////////////////////////////////////////////////////*/
 
 public class Inventory extends javax.swing.JFrame 
@@ -83,29 +85,21 @@ public class Inventory extends javax.swing.JFrame
     
     public ArrayList ListItems()// Used to create rows for table
     {
-        String itemID = ""; 
-        String title = ""; 
-        String author = "";
-        String isbn ="";
-        String genre = "";
-        String price = "";
-        String mediaType = "";
         
-        ArrayList<Items> list = new ArrayList<>();
+        ArrayList<Items> list = new ArrayList<Items>();
         try
         {
             x = new Scanner(new File(filepath));
             x.useDelimiter("[,\n]");
-            
             while(x.hasNext())
             {
-                itemID = x.next();
-                title = x.next();
-                author = x.next();
-                isbn = x.next();                
-                genre = x.next();
-                price = x.next();
-                mediaType = x.next();
+               String itemID = x.next();
+                String title = x.next();
+                String author = x.next();
+                String isbn = x.next();                
+                String genre = x.next();
+                String price = x.next();
+                String mediaType = x.next();
                 
                 Items iList = new Items(itemID, title, author, isbn, genre, 
                         price, mediaType);
@@ -123,17 +117,17 @@ public class Inventory extends javax.swing.JFrame
     private void addRowToJTable()
     {// add rows to table
         DefaultTableModel model = (DefaultTableModel) inventoryTable.getModel();
-        ArrayList<Items> iList = new ArrayList<>();
+        ArrayList<Items> list = ListItems();
         Object rowData[] = new Object[7];
-        for(int i=0; i < iList.size(); i++)
+        for(int i=0; i < list.size(); i++)
         {
-            rowData[0] = iList.get(i).idArray;
-            rowData[1] = iList.get(i).titleArray;
-            rowData[2] = iList.get(i).authorArray;
-            rowData[3] = iList.get(i).isbnArray;
-            rowData[4] = iList.get(i).genreArray;
-            rowData[5] = iList.get(i).priceArray;
-            rowData[6] = iList.get(i).mediaTypeArray;
+            rowData[0] = list.get(i).idArray;
+            rowData[1] = list.get(i).titleArray;
+            rowData[2] = list.get(i).authorArray;
+            rowData[3] = list.get(i).isbnArray;
+            rowData[4] = list.get(i).genreArray;
+            rowData[5] = list.get(i).priceArray;
+            rowData[6] = list.get(i).mediaTypeArray;
             model.addRow(rowData);
         }
     }
@@ -159,6 +153,7 @@ public class Inventory extends javax.swing.JFrame
         // all fields are complete, proceed
             return true;    
     }
+    
     public static void emptyFile(String file)
     {
         try 
@@ -214,7 +209,6 @@ public class Inventory extends javax.swing.JFrame
     public static void saveRecord(String ID, String title, String author, String
             isbn, String genre, String price, String mediaType, String FilePath)
     {    // read data to be saved to text file
-         // Not working now, not sure why
         try
         {   
             FileWriter fw = new FileWriter(FilePath, true);
@@ -293,7 +287,7 @@ public class Inventory extends javax.swing.JFrame
 
         jPanel2.setBackground(new java.awt.Color(51, 204, 0));
 
-        btn_SearchButton.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btn_SearchButton.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         btn_SearchButton.setText("Search ");
         btn_SearchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -301,7 +295,7 @@ public class Inventory extends javax.swing.JFrame
             }
         });
 
-        btn_clear.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        btn_clear.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         btn_clear.setText("Clear");
         btn_clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -309,7 +303,7 @@ public class Inventory extends javax.swing.JFrame
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel9.setText("Title");
 
         txt_SearchTitle.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -480,7 +474,7 @@ public class Inventory extends javax.swing.JFrame
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        inventoryTable.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        inventoryTable.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         inventoryTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -543,7 +537,7 @@ public class Inventory extends javax.swing.JFrame
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 738, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(745, 745, 745)
                         .addComponent(jButton1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -580,12 +574,15 @@ public class Inventory extends javax.swing.JFrame
         emptyFile(file);
         searchRecord(searchTerm,filepath);
         File filep = new File(file); 
-        try (Scanner inputFile = new Scanner(filep))
-        { // Read lines from the file until no more are left
+        try (Scanner inputFile = new Scanner(filep))    
+        {   // Read lines from the file until no more are left
+            // format output to allow for ease of reading
+            inputFile.useDelimiter("[,\n]");
+            textArea1.append("Search Results for: " + searchTerm +"\n");
             while (inputFile.hasNext()) 
             {
                 // Read the line into TextArea
-                String message = inputFile.nextLine();
+                String message = inputFile.next();
                 textArea1.append(message);
                 textArea1.append("\n");
             }
